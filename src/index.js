@@ -20,11 +20,11 @@ function Copyright() {
 
 function Header() {
   const footerstyle = {
-    position: 'fixed',
     margin: '0px',
     width: '100%',
     backgroundColor: '#e6ffe6',
-    padding: '15px'
+    padding: '15px',
+    display: 'block'
 } 
 return (
   <h2 style={footerstyle}>{'TechnoComp'}</h2>
@@ -35,7 +35,7 @@ ReactDOM.render(
   <ThemeProvider theme={theme}>
     {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
     <CssBaseline />
-    <Header />
+    <Header/>
     <App />
     <Copyright />
   </ThemeProvider>,

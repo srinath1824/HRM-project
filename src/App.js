@@ -84,7 +84,12 @@ class App extends React.Component {
 }
 
   render() {
-    this.state.register ? <Register /> : ""
+    if(this.state.register) {
+      return (
+        <Register />
+      )
+    }
+
   return (
     <React.Fragment>
         <Container maxWidth="sm">
