@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Container, Typography, TextField, Link } from '@material-ui/core';
+import Register from './components/register';
 
 let errors = {username: "",password: ""};
 class App extends React.Component {
@@ -35,8 +36,13 @@ class App extends React.Component {
     }
   }
 
-  validate() {
+  registration() {
+    this.setState({
+      register: true
+    })
+  }
 
+  validate() {
     // this.setState({
     //   is_valid_user: true
     // });
@@ -78,7 +84,7 @@ class App extends React.Component {
 }
 
   render() {
-    
+    this.state.register ? <Register /> : ""
   return (
     <React.Fragment>
         <Container maxWidth="sm">
@@ -115,7 +121,7 @@ class App extends React.Component {
             style={{marginLeft: '20px'}} 
             component="button"
             variant="body2"
-            onClick={() => {  }}>Register Now</Link>
+            onClick={() => this.registration()}>Register Now</Link>
             <br />
             <br/>
         </Container>
