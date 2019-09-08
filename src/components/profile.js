@@ -160,7 +160,8 @@ render() {
 
         <Grid container spacing={3}>
             <Grid item xs={6}>
-              
+              <label>Firstname</label>
+              <br/>
               <input
                   id="firstName"
                   label="First name*"
@@ -172,7 +173,8 @@ render() {
                   defaultValue={this.props.updateprofileflag  ? updateData.firstName : updateData.firstName}
             />
             <div className="errorMsg">{errors["FirstName"]}</div>
-
+            <label>LastName</label>
+            <br/>
             <input
               id="LastName"
               label="Last name*"
