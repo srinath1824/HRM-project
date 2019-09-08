@@ -8,10 +8,13 @@ import theme from './theme';
 function Copyright() {
   const footerstyle = {
     position: 'fixed',
-    bottom: '0px',
+    left: 0,
+    bottom: 0,
     width: '100%',
+    textAlign: 'center',
     backgroundColor: '#e6ffe6',
-    padding: '20px'
+    margin: '0px',
+    padding: '10px'
 }
   return (
       <h5 style={footerstyle}>{'Copyright © Technocomplnc. All Rights Reserver'}</h5>

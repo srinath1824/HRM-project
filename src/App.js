@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Container, Typography, TextField, Link } from '@material-ui/core';
 import Register from './components/register';
+import Customgrid from './components/customgrid';
 
 let errors = {username: "",password: ""};
 class App extends React.Component {
@@ -36,16 +37,20 @@ class App extends React.Component {
     }
   }
 
-  registration() {
+  registration(value) {
     this.setState({
-      register: true
+      register: value
     })
   }
 
   validate() {
-    // this.setState({
-    //   is_valid_user: true
-    // });
+
+    //comment this
+    this.setState({
+      is_valid_user: true
+    });
+    //-------------------
+    
     console.log(this.state)
     this.state.username === "" ?
       errors.username = "Please enter your Username." : errors={}
@@ -86,7 +91,15 @@ class App extends React.Component {
   render() {
     if(this.state.register) {
       return (
-        <Register />
+        <Register registration={() => this.registration()}/>
+      )
+    }
+
+    if(this.state.is_valid_user){
+      return(
+        <div>
+          <Customgrid/>
+          </div>
       )
     }
 
@@ -126,7 +139,7 @@ class App extends React.Component {
             style={{marginLeft: '20px'}} 
             component="button"
             variant="body2"
-            onClick={() => this.registration()}>Register Now</Link>
+            onClick={() => this.registration(true)}>Register Now</Link>
             <br />
             <br/>
         </Container>
