@@ -118,3 +118,7 @@ background-color: #779126;
 border-radius: 20px;
 padding-left: 15px;
 }
+
+.errorMsg {
+    color: red;
+}

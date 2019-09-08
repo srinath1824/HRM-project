@@ -343,18 +343,12 @@ render() {
             </Button>
           </Grid>
         </Grid>
-        <ButtonGroup
-            variant="contained"
-            color="primary"
-            aria-label="full-width contained primary button group"
-        >
         <Button type="button" variant="contained" color="primary" onClick={(e) => this.backtodatagrid(e)}>
           Back
         </Button>
-        <Button type="submit" variant="contained" color="primary" onClick={(e) => this.submit(e)}>
+        <Button style={{marginLeft: "10px"}} type="submit" variant="contained" color="primary" onClick={(e) => this.submit(e)}>
           Submit
         </Button>
-        </ButtonGroup>
         <br/>
         </Container>
       </div>

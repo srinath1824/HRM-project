@@ -66,7 +66,7 @@ return (
         </label>
         <br />
         <Button variant="contained" color="primary" onClick={(e) => this.backtodatagrid(e)}>Back</Button>
-        <Button variant="contained" color="primary" disabled={!this.state.upload} onClick={(e) => this.submit(e)} value="Submit">Upload</Button>
+        <Button variant="contained" style={{marginLeft: "10px"}} color="primary" disabled={!this.state.upload} onClick={(e) => this.submit(e)} value="Submit">Upload</Button>
         </center>
     </div>
 )
