@@ -8,12 +8,16 @@ class Upload extends Component {
 constructor(props) {
 super(props)
 this.state = {
-    upload: false
+    upload: false,
+    uploadMsg: false
 }
 }
 submit(e) {
-console.log("submited")
+
 if(fileupl.length > 0) {
+    console.log("submited")
+    //comment this code
+    this.setState({uploadMsg: true})
     fetch('http://172.16.75.55:8081/trp/uploadResume', {
     method: 'POST',
     headers: {
@@ -32,6 +36,7 @@ if(fileupl.length > 0) {
         if(result.responseCode.errorCode==="0"){
         console.log("Uploaded successfully");
         this.props.bulkUpload ? this.props.handelresume() : this.props.uploadresume(false,fileupl, fileupl.length);
+        this.setState({uploadMsg: true})
         }
         else{
         console.log("Unable to upload");
@@ -64,9 +69,11 @@ return (
             <input type="file" name="drag and drop" onChange={ (e) => this.handleChange(e) } multiple={this.props.bulkUpload}/>
             {!this.state.upload ? "Click here to Upload Resume" : fileupl[0].name}
         </label>
-        <br />
+        <br /><br/>
+        {this.state.uploadMsg ? "Uploaded Successfully" : ""}
+        <br/>
         <Button variant="contained" color="primary" onClick={(e) => this.backtodatagrid(e)}>Back</Button>
-        <Button variant="contained" style={{marginLeft: "10px"}} color="primary" disabled={!this.state.upload} onClick={(e) => this.submit(e)} value="Submit">Upload</Button>
+        <Button variant="contained" style={{marginLeft: "10px"}} color="primary" disabled={!this.state.upload || this.state.uploadMsg} onClick={(e) => this.submit(e)} value="Submit">Upload</Button>
         </center>
     </div>
 )
