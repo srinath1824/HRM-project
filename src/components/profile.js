@@ -147,17 +147,15 @@ return valueflag;
 
 render() {
   if(this.state.upload){
-   return(
-    <Upload bulkUpload={false} uploadresume={() => this.uploadresume()}/>
-   )
+  return(
+  <Upload bulkUpload={false} uploadresume={() => this.uploadresume()}/>
+  )
   }
   
     return (
       <div style={{backgroundColor: '#e0ebeb', textAlign: 'center'}}>
         <br/>
         <h1>{ this.props.addProfile ? "Add Profile" : "Update Profile"}</h1>
-        <Container fixed>
-
         <Grid container spacing={3}>
             <Grid item xs={6}>
               <label>Firstname</label>
@@ -186,7 +184,8 @@ render() {
               defaultValue={this.props.updateprofileflag ? updateData.lastName : this.state.lastName}
             />
             <div className="errorMsg">{errors["LastName"]}</div>
-
+            <label>Email</label>
+            <br/>
             <input
               id="Email"
               label="Email*"
@@ -198,7 +197,8 @@ render() {
               defaultValue={this.props.updateprofileflag ? updateData.resourceEmail : this.state.resourceEmail}
             />
             <div className="errorMsg">{errors["Email"]}</div>
-
+            <label>primaryPhone</label>
+            <br/>
                 <input
                   id="primaryPhone"
                   label="primaryPhone"
@@ -210,6 +210,8 @@ render() {
                   defaultValue={this.props.updateprofileflag ? updateData.primaryPhone : this.state.primaryPhone}
                 />
               <br/>
+              <label>landLine</label>
+            <br/>
               <input
                 id="landLine"
                 label="landLine"
@@ -221,6 +223,8 @@ render() {
                 defaultValue={this.props.updateprofileflag ? updateData.landLine : this.state.landLine}
               />
               <br/>
+              <label>Select a state</label>
+              <br/>
             <select name="state" className="styled-select slate" onChange={(e) => this.handleChange(e)}
               placeholder="Select a State" >
               <option value="None">Select a state</option>
@@ -229,6 +233,8 @@ render() {
               <option value="MEX">Mexico</option>
             </select>
             <br/>
+            <label>Enter a city</label>
+              <br/>
             <input
               id="city"
               label="city"
@@ -240,6 +246,8 @@ render() {
               defaultValue={this.props.updateprofileflag ? updateData.city : this.state.city}
             />
             <br/>
+            <label>Select a zip code</label>
+              <br/>
             <input
               id="Zip Code"
               label="Zip Code"
@@ -253,7 +261,8 @@ render() {
             
             </Grid>
             <Grid item xs={6}>
-              
+            <label>Current Project</label>
+              <br/>
                 <input
                   id="Current Project"
                   label="Current Project"
@@ -264,6 +273,8 @@ render() {
                   placeholder="Enter your Project"
                   defaultValue={this.props.updateprofileflag ? updateData.currProject : this.state.currProject}
                 />
+                <br/>
+                <label>Previous Project</label>
                 <br/>
                 <input
                   id="Previous Project"
@@ -276,6 +287,8 @@ render() {
                   defaultalue={this.props.updateprofileflag ? updateData.prevProject : this.state.prevProject}
                 />
                 <br/>
+                <label>clientName</label>
+                <br/>
                 <input
                   id="clientName"
                   label="clientName"
@@ -287,7 +300,8 @@ render() {
                   defaultalue={this.props.updateprofileflag ? updateData.clientName : this.state.clientName}
                 />
                 <br/>
-
+                <label>Relocate</label>
+                <br/>
                 <select className="styled-select slate" name="relocate" onChange={(e) => this.handleChange(e)}
                   placeholder="Select a State" 
                   defaultalue={this.props.updateprofileflag ? updateData.relocate : this.state.relocate}>
@@ -296,7 +310,8 @@ render() {
                   <option value="No">No</option>
                 </select>
               <br/>
-
+              <label>Experience</label>
+                <br/>
               <input
                 id="Experience"
                 label="Experience"
@@ -308,6 +323,8 @@ render() {
                 defaultValue={this.props.updateprofileflag ? updateData.resourceExp : this.state.resourceExp}
               />
               <br/>
+              <label>Skills</label>
+                <br/>
               <input
                 id="Skills"
                 label="Skills"
@@ -318,6 +335,8 @@ render() {
                 placeholder="Skills"
               />
               <br/>
+              <label>Desired Position</label>
+                <br/>
               <input
               id="Desired Position"
               label="Desired Position"
@@ -329,6 +348,8 @@ render() {
               defaultValue={this.props.updateprofileflag ? updateData.desiredPosition : this.state.desiredPosition}
             />
             <br/>
+            <label>Notes</label>
+                <br/>
             <input
               id="Notes"
               label="Notes"
@@ -346,15 +367,13 @@ render() {
           </Grid>
         </Grid>
         <Button type="button" variant="contained" color="primary" onClick={(e) => this.backtodatagrid(e)}>
-          Back
-        </Button>
-        <Button style={{marginLeft: "10px"}} type="submit" variant="contained" color="primary" onClick={(e) => this.submit(e)}>
-          Submit
-        </Button>
+              Back
+            </Button>
+            <Button style={{marginLeft: "10px"}} type="submit" variant="contained" color="primary" onClick={(e) => this.submit(e)}>
+              Submit
+            </Button>
         <br/>
-        </Container>
       </div>
-
     );
   }
 }

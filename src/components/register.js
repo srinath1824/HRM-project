@@ -15,25 +15,19 @@ export default class Register extends Component {
         is_valid_user:false,
         cancel: false
     }
-
     this.handleChange = this.handleChange.bind(this);
     this.submituserRegistrationForm = this.submituserRegistrationForm.bind(this);
-
     };
-
     handleChange(e) {
     let fields = this.state.fields;
     fields[e.target.name] = e.target.value;
     this.setState({
         fields
     });
-
     }
-
     async submituserRegistrationForm(e) {
-
     // comment this code
-    this.setState({is_valid_user: true});
+    //this.setState({is_valid_user: true});
     //--------------------------
     e.preventDefault();
     if (this.validateForm()) {
@@ -46,37 +40,37 @@ export default class Register extends Component {
         fields["password"] = "";
         this.setState({fields:fields});
         alert("Form submitted");
-    }
-    await fetch("http://172.16.75.112:8081/trp/register",{
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        'cache-control': 'no-cache',
-    },  
-    body: JSON.stringify({
-        firstName: this.state.fields.FirstName,
-        lastName: this.state.fields.LastName,
-        phone: this.state.fields.mobileno,
-        userEmail: this.state.fields.emailid,
-        securityQuestion: "what is you home address?",
-        userId: this.state.fields.username,
-        userPwd:this.state.fields.password,
-        // need to implement registered as source or recruter
-        }),
+        await fetch("http://172.16.75.112:8081/trp/register",{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'cache-control': 'no-cache',
+        },  
+        body: JSON.stringify({
+            firstName: this.state.fields.FirstName,
+            lastName: this.state.fields.LastName,
+            phone: this.state.fields.mobileno,
+            userEmail: this.state.fields.emailid,
+            securityQuestion: "what is you home address?",
+            userId: this.state.fields.username,
+            userPwd:this.state.fields.password,
+            // need to implement registered as source or recruter
+            }),
 
-    })  
-    .then(res => res.json())
-        .then(
-            (result) => {  
-            console.log(result) 
-            this.setState({
-                is_valid_user: true
-            } )
-            }
-        ).catch(err => {
-            console.log(err)
-        })
-    }
+        })  
+        .then(res => res.json())
+            .then(
+                (result) => {  
+                console.log(result) 
+                this.setState({
+                    is_valid_user: true
+                } )
+                }
+            ).catch(err => {
+                console.log(err)
+            })
+        }
+}
 
     validateForm() {
 
@@ -187,7 +181,7 @@ render() {
 
     <div className='Signup-form'>
         
-        <form method="post"  name="userRegistrationForm" onSubmit= {this.submituserRegistrationForm} >
+        <form method="post"  name="userRegistrationForm" onSubmit= {()=>this.submituserRegistrationForm()} >
         
         <Grid container justify = "center">
             <Grid justify = "center" item xs={3}>

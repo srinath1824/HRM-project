@@ -71,7 +71,8 @@ class Customgrid extends Component {
         const username = document.getElementById("user_name").value
 
         var result = this.state.rows.filter(function (v, i) {
-            return ((v["Name"] === username) || v.Role === userRole);
+            //return ((v["Name"] === username) || v.Role === userRole);
+            return ((v["Name"].toLowerCase().includes(username.toLowerCase())) && (v["Role"].toLowerCase().includes(userRole.toLowerCase())));
         })
 
         this.setState({
@@ -206,14 +207,14 @@ class Customgrid extends Component {
             let rows = {}
             //uncomment all
             let {firstName, statusDTO, lastModifiedTs, resourceId, primaryPhone, desiredPosition, resume, details} = row
-             rows['Name'] = firstName;
-             rows['Status'] = statusDTO.statusDesc;
-             rows['Date'] = lastModifiedTs;
-             rows['id'] = resourceId;
-             rows['phone'] = primaryPhone;
-             rows['Role'] = desiredPosition;
-             rows['resume'] = resume;
-             rows['details'] = details;
+            rows['Name'] = firstName;
+            rows['Status'] = statusDTO.statusDesc;
+            rows['Date'] = lastModifiedTs;
+            rows['id'] = resourceId;
+            rows['phone'] = primaryPhone;
+            rows['Role'] = desiredPosition ? desiredPosition : 'N/A';
+            rows['resume'] = resume;
+            rows['details'] = details;
             // rows['Name'] = singleRow.Name;
             // rows['Status'] = singleRow.Status;
             // rows['Date'] = singleRow.Date;
@@ -242,7 +243,6 @@ class Customgrid extends Component {
                 if(result.responseCode.errorCode==="0"){
                     this.setState({data: result})
                     console.log(this.state.data)
-
                 }
                 else{
                     this.setState({errormessage:"Invalid User Id or Password."})
@@ -261,10 +261,6 @@ class Customgrid extends Component {
             )
         }
         if (this.state.updateprofileclicked) {
-            // console.log(JSON.parse(sessionStorage.getItem('FirstName')));
-            // console.log(JSON.parse(sessionStorage.getItem('LastName')));
-            // console.log(JSON.parse(sessionStorage.getItem('Email')));
-            // console.log(JSON.parse(sessionStorage.getItem('createdUserId')));
             console.log(this.state.selectedIndexes, filterData[this.state.selectedIndexes]);
             return (
                 // <Register handelregister={this.handelregister}/>
@@ -286,62 +282,35 @@ class Customgrid extends Component {
             )
         }
 
-        // if(this.state.newResume) {
-        //     const newResume = this.state.data.newResourceDetailDTO.newResourceDetailList;
-
-        //     this.filteredData(resume);
-        // }
-
-        // if(this.state.oldResume) {
-        //     const oldResume = this.state.data.newResourceDetailDTO.newResourceDetailList;
-        //      this.filteredData(oldResume);
-        // }
-        // if(this.state.wip) {
-        //     const wip = this.state.data.newResourceDetailDTO.newResourceDetailList;
-        //     this.filteredData(wip);
-        // }
-
         return (
             <div>
-                {/* <p> Role:</p>
-                <input type="text" name="User Id" id="id" placeholder="Enter Role" />
-                <br /> */}
-                <ButtonGroup
-            variant="contained"
-            color="primary"
-            aria-label="full-width contained primary button group"
-        >
-            <Button onClick={() => this.newResume()}>New Resume</Button>
-            <Button onClick={() => this.wip()}>Work in progress</Button>
-            <Button onClick={() => this.oldResume()}>Old Resume</Button>
-        </ButtonGroup>
+            <br/>
+            <Button style={{marginLeft: '10px'}} variant="contained" color="primary" onClick={() => this.newResume()}>New Resume</Button>
+            <Button style={{marginLeft: '10px'}} variant="contained" color="primary" onClick={() => this.wip()}>Work in progress</Button>
+            <Button style={{marginLeft: '10px'}} variant="contained" color="primary" onClick={() => this.oldResume()}>Old Resume</Button>
         <br/><br/><br/>
                 <TextField
                     id="id"
                     label="Enter Role"
                     name="User Id"
+                    style={{marginLeft: '10px'}}
                 />
                 <TextField
                     id="user_name"
                     label="Enter Name"
                     name="User name"
+                    style={{marginLeft: '10px'}}
                 />
                 <Button type="submit" variant="contained" color="primary" onClick={(e) => this.validate(e)}>Search</Button>
                 <br/><br/>
         <div>
-        <ButtonGroup
-            variant="contained"
-            color="primary"
-            aria-label="full-width contained primary button group"
-        >
-            <Button type="submit" variant="contained" color="primary" onClick={(e) => this.clearsearch(e)}>Clear Search</Button>
-            <Button onClick={(e) => this.addprofile(e)}>Add profile</Button>
-            <Button disabled= {!this.state.showButton} onClick={(e) => this.updateprofile(e)}>Update profile</Button>
-
-            <Button onClick={(e) => this.addresumes(e)}>Resume Bulk upload</Button>
-            <Button onClick={(e) => this.logout(e)}>Logout</Button>
-            </ButtonGroup>
+            <Button type="submit" style={{marginLeft: '10px'}} variant="contained" color="primary" onClick={(e) => this.clearsearch(e)}>Clear Search</Button>
+            <Button style={{marginLeft: '10px'}} variant="contained" color="primary" onClick={(e) => this.addprofile(e)}>Add profile</Button>
+            <Button style={{marginLeft: '10px'}} variant="contained" color="primary" disabled= {!this.state.showButton} onClick={(e) => this.updateprofile(e)}>Update profile</Button>
+            <Button style={{marginLeft: '10px'}} variant="contained" color="primary" onClick={(e) => this.addresumes(e)}>Resume Bulk upload</Button>
+            <Button style={{marginLeft: '10px'}} variant="contained" color="primary" onClick={(e) => this.logout(e)}>Logout</Button>
         </div>
+        <br/>
                 <div className="grid">
                     <ReactDataGrid
                         columns={columns}
@@ -360,7 +329,6 @@ class Customgrid extends Component {
                     />
                 </div>
             </div>
-
         );
     }
 }

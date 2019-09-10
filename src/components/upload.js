@@ -17,7 +17,7 @@ submit(e) {
 if(fileupl.length > 0) {
     console.log("submited")
     //comment this code
-    this.setState({uploadMsg: true})
+    // this.setState({uploadMsg: true})
     fetch('http://172.16.75.55:8081/trp/uploadResume', {
     method: 'POST',
     headers: {
