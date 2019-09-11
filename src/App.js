@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Container, Typography, TextField, Link } from '@material-ui/core';
 import Register from './components/register';
 import Customgrid from './components/customgrid';
+import ForgotModel from './components/forgotModel';
 
 let errors = {username: "",password: ""};
 class App extends React.Component {
@@ -13,7 +14,9 @@ class App extends React.Component {
       is_valid_user:false,
       password: "",
       formIsValid: false,
-      register: false
+      register: false,
+      forgotuser: false,
+      forgotpassword: false
     }
   }
   
@@ -74,6 +77,7 @@ class App extends React.Component {
       (result) => {  
         console.log(result) 
         if(result.responseCode.errorCode==="0"){
+          sessionStorage.setItem('userId',this.state.username);
           this.setState({
             is_valid_user: true
           })
@@ -86,6 +90,22 @@ class App extends React.Component {
       console.log(err)
     })
   }
+}
+
+handleForgotUsername() {
+    this.setState({forgotuser: true});
+}
+
+handleForgotPassword() {
+  this.setState({forgotpassword: true});
+}
+
+handleClose() {
+  this.setState({ forgotuser: false });
+}
+
+handlePasswdClose() {
+  this.setState({ forgotpassword: false });
 }
 
   render() {
@@ -105,6 +125,13 @@ class App extends React.Component {
 
   return (
     <React.Fragment>
+      {this.state.forgotuser || this.state.forgotpassword ? 
+      
+      <ForgotModel
+        forgotuser={this.state.forgotuser}
+        forgotpassword = {this.state.forgotpassword} 
+        
+        /> :
         <Container maxWidth="sm">
         <br /><br /><br />
         <Typography variant="h4" component="h2" color="textPrimary">
@@ -129,7 +156,12 @@ class App extends React.Component {
             />
             <div style={{color: 'red'}}>{errors.password}</div>
             <br />
-            <a href="#">Forgot Password</a>
+            <div onClick={() => this.handleForgotUsername()}>
+              <label style={{display: 'inline-block', textDecoration: 'underline', cursor: 'pointer', color: 'blue'}}>Forgot Username</label>
+            </div>
+            <div onClick={() => this.handleForgotPassword()}>
+              <label style={{display: 'inline-block', textDecoration: 'underline', cursor: 'pointer', color: 'blue'}}>Forgot Password</label>
+            </div>
             <br />
             <br />
             <Button variant="contained" color="primary" onClick={() => this.validate()}>
@@ -142,7 +174,7 @@ class App extends React.Component {
             onClick={() => this.registration(true)}>Register Now</Link>
             <br />
             <br/>
-        </Container>
+      </Container> }
     </React.Fragment>
   )};
 }

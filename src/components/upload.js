@@ -24,8 +24,8 @@ if(fileupl.length > 0) {
         'Content-Type': 'multipart/form-data',
         'Content-Disposition': 'form-data',
     },  body: JSON.stringify({
-        userId: this.state.UserId,
-        userPwd: this.state.Password
+        // userId: this.state.UserId,
+        // userPwd: this.state.Password
         //resumes to be uploaded
         }),
     })

@@ -7,20 +7,13 @@ import theme from './theme';
 
 function Copyright() {
   const footerstyle = {
-    // width: '100%',
-    // textAlign: 'center',
-    // backgroundColor: '#bf4080',
-    // color: 'white',
-    // marginBottom: '0px',
-    // bottom: '0px',
-    // position: 'relative'
-    position:'absolute',
-        width:'100%',
-        height:'auto',   /* Height of the footer */
-        textAlign:'center',
-        backgroundColor: '#bf4080',
-        padding: '20px',
-        marginBottom: '0px'
+    position: 'fixed',
+    left: '0',
+    bottom: '0',
+    width: '100%',
+    backgroundColor: '#bf4080',
+    color: 'white',
+    textAlign: 'center'
 }
   return (
       <h5 style={footerstyle}>{'Copyright © Technocomplnc. All Rights Reserver'}</h5>

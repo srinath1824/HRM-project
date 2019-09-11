@@ -32,17 +32,14 @@ uploadresume(value, fileInput, length){
 
 async componentWillMount() {
   if(this.props.updateprofileflag){
-
   console.log(this.props.idSelected);
   await fetch(`http://172.16.75.112:8081/trp/getResourceById/${this.props.idSelected.id}`)
-
       .then(res => res.json())
             .then(
               (result) => {
                 console.log(result)
                 sessionStorage.setItem("data", JSON.stringify(result));
                 updateData = JSON.parse(sessionStorage.getItem("data"));
-
                 //JSON.parse(sessionStorage.getItem("data"));
                 this.setState({
                   getResourceById: JSON.parse(sessionStorage.getItem("data"))

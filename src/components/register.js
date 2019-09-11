@@ -31,14 +31,15 @@ export default class Register extends Component {
     //--------------------------
     e.preventDefault();
     if (this.validateForm()) {
-        let fields = {};
-        fields["FirstName"] = "";
-        fields["LastName"] = "";
-        fields["username"] = "";
-        fields["emailid"] = "";
-        fields["mobileno"] = "";
-        fields["password"] = "";
-        this.setState({fields:fields});
+        //comment this code
+        // let emptyFields = {};
+        // emptyFields["FirstName"] = "";
+        // emptyFields["LastName"] = "";
+        // emptyFields["username"] = "";
+        // emptyFields["emailid"] = "";
+        // emptyFields["mobileno"] = "";
+        // emptyFields["password"] = "";
+        // this.setState({fields:emptyFields});
         alert("Form submitted");
         await fetch("http://172.16.75.112:8081/trp/register",{
         method: 'POST',

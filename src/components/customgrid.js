@@ -66,10 +66,17 @@ class Customgrid extends Component {
         this.setState({profileData: data})
     }
 
-    validate(e) {
-        const userRole = document.getElementById("id").value;
-        const username = document.getElementById("user_name").value
+    handleChange(e) {
+        this.setState({
+            [e.target.name] : e.target.value
+        })
+    }
 
+    validate(e) {
+        // const userRole = document.getElementById("id").value;
+        // const username = document.getElementById("user_name").value
+        const userRole = this.state.role;
+        const username = this.state.name;
         var result = this.state.rows.filter(function (v, i) {
             //return ((v["Name"] === username) || v.Role === userRole);
             return ((v["Name"].toLowerCase().includes(username.toLowerCase())) && (v["Role"].toLowerCase().includes(userRole.toLowerCase())));
@@ -292,14 +299,18 @@ class Customgrid extends Component {
                 <TextField
                     id="id"
                     label="Enter Role"
-                    name="User Id"
+                    // name="User Id"
+                    name='role'
                     style={{marginLeft: '10px'}}
+                    onChange={(e) => this.handleChange(e)}
                 />
                 <TextField
                     id="user_name"
                     label="Enter Name"
-                    name="User name"
+                    // name="User name"
+                    name = 'name'
                     style={{marginLeft: '10px'}}
+                    onChange={(e) => this.handleChange(e)}
                 />
                 <Button type="submit" variant="contained" color="primary" onClick={(e) => this.validate(e)}>Search</Button>
                 <br/><br/>
