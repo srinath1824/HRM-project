@@ -41,7 +41,7 @@ export default class Register extends Component {
         // emptyFields["password"] = "";
         // this.setState({fields:emptyFields});
         alert("Form submitted");
-        await fetch("http://172.16.75.112:8081/trp/register",{
+        await fetch("http://172.16.75.99:8443/trp/register",{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

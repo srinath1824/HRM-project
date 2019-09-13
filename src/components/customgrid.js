@@ -8,6 +8,7 @@ import TextField from '@material-ui/core/TextField';
 import { Button } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
 
 const columns = [
     { key: 'id', name: 'ID' },
@@ -75,11 +76,21 @@ class Customgrid extends Component {
     validate(e) {
         // const userRole = document.getElementById("id").value;
         // const username = document.getElementById("user_name").value
+        console.log(this.state.rows);
         const userRole = this.state.role;
         const username = this.state.name;
         var result = this.state.rows.filter(function (v, i) {
+            console.log(v.Name, v.Role, username, userRole);
+            if(username && userRole) {
+                return (((v.Name.toLowerCase()).includes(username.toLowerCase())) && 
+                ((v.Role.toLowerCase()).includes(userRole.toLowerCase())));
+            } else if(username && !userRole){
+                return (((v.Name.toLowerCase()).includes(username.toLowerCase())))
+            } else if(!username && userRole) {
+               return ((v.Role.toLowerCase()).includes(userRole.toLowerCase()));
+            }
             //return ((v["Name"] === username) || v.Role === userRole);
-            return ((v["Name"].toLowerCase().includes(username.toLowerCase())) && (v["Role"].toLowerCase().includes(userRole.toLowerCase())));
+            
         })
 
         this.setState({
@@ -175,6 +186,7 @@ class Customgrid extends Component {
         this.setState({newResume: true});
         //uncomment
         resume = this.state.data.newResourceDetailDTO.newResourceDetailList;
+        console.log(resume);
         //  const resume = [
         //      {id: 0,Date: "28/08/2019", Name: 'Mark', phone: 123456, Role: 'java', Visa: 'opt', Status: 'on bench', resume: '', details: '' },
         //      { id: 1,Date: "28/08/2019", Name: 'will', phone: 223456, Role: '.net', Visa: 'opt', Status: 'on project', resume: '', details: '' },
@@ -207,20 +219,36 @@ class Customgrid extends Component {
         this.filteredData(resume);
     }
 
+    downloadResume(id){
+        console.log(id);
+        fetch(`http://172.16.75.99:8443/trp/getResumeById/${id}`)
+            .then(t => {
+                return t.blob().then( b => {
+                      var a = document.createElement("a");        
+                       a.href = URL.createObjectURL(b);       
+                         a.setAttribute("download", id);  
+                      a.click(); 
+                });
+            });
+    }
+
     filteredData(fullData) {
+
         filterData = [];
         fullData.map(row=> {
         // fullData.map(singleRow=> {
             let rows = {}
             //uncomment all
-            let {firstName, statusDTO, lastModifiedTs, resourceId, primaryPhone, desiredPosition, resume, details} = row
+            let {firstName, statusDTO, lastModifiedTs,resourceResumeDTOList, resourceId, primaryPhone, desiredPosition, resume, details} = row
+            let resId = resourceResumeDTOList[0].resumeId;
+            // console.log(resId);
             rows['Name'] = firstName;
             rows['Status'] = statusDTO.statusDesc;
             rows['Date'] = lastModifiedTs;
             rows['id'] = resourceId;
             rows['phone'] = primaryPhone;
             rows['Role'] = desiredPosition ? desiredPosition : 'N/A';
-            rows['resume'] = resume;
+            rows['resume'] = resId && <CloudDownloadIcon onClick={() => this.downloadResume(resId)} fontSize="small"/>
             rows['details'] = details;
             // rows['Name'] = singleRow.Name;
             // rows['Status'] = singleRow.Status;
@@ -237,7 +265,7 @@ class Customgrid extends Component {
     }
 
     componentDidMount() {
-        fetch("http://172.16.75.112:8081/trp/searchResource",{
+        fetch("http://172.16.75.99:8443/trp/searchResource",{
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -264,7 +292,7 @@ class Customgrid extends Component {
     render() {
         if (this.state.addprofileclicked) {
             return (
-                <Profile addProfile={true} handelprofile={this.handelprofile} />
+                <Profile addProfile={true} handelprofile={this.handelprofile} updateprofileflag={true}/>
             )
         }
         if (this.state.updateprofileclicked) {
@@ -274,7 +302,7 @@ class Customgrid extends Component {
                 // <Upload indexSelected={this.state.selectedIndexes} uploadResume={(index, file) => this.uploadResume(index, file)} handelresume={this.handelresume}/>
                 //profileData={(data) => this.profileData(data)}
                 //idSelected={this.state.data.id}
-                <Profile idSelected={filterData[this.state.selectedIndexes]} updateprofileflag={true} handelprofile={this.handelprofile} />
+                <Profile idSelected={filterData[this.state.selectedIndexes]} updateprofileflag={false} handelprofile={this.handelprofile} />
             
                 )
         }

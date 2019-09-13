@@ -17,7 +17,7 @@ handleChange(event) {
     }
     
 validateFrgtUsername() {
-fetch("http://172.16.75.112:8080/trp/forgotUserId",{
+fetch("http://172.16.75.99:8443/trp/forgotUserId",{
     method: 'POST',
     headers: {
     'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ fetch("http://172.16.75.112:8080/trp/forgotUserId",{
 }
 
 validateFrgtPasswd() {
-fetch("http://172.16.75.112:8080/trp/forgotPwd",{
+fetch("http://172.16.75.99:8443/trp/forgotPwd",{
     method: 'POST',
     headers: {
     'Content-Type': 'application/json',

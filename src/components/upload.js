@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import './upload.css';
 import { Button } from '@material-ui/core';
-
+import axios from 'axios';
+import { fstat } from 'fs';
+import fs from 'fs'
+import rp from 'request-promise';
 
 let fileupl = [];
 class Upload extends Component {
@@ -9,50 +12,77 @@ constructor(props) {
 super(props)
 this.state = {
     upload: false,
-    uploadMsg: false
+    uploadMsg: false,
+    files: {}
 }
 }
-submit(e) {
-
-if(fileupl.length > 0) {
-    console.log("submited")
-    //comment this code
-    // this.setState({uploadMsg: true})
-    fetch('http://172.16.75.55:8081/trp/uploadResume', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'multipart/form-data',
-        'Content-Disposition': 'form-data',
-    },  body: JSON.stringify({
-        // userId: this.state.UserId,
-        // userPwd: this.state.Password
-        //resumes to be uploaded
-        }),
-    })
-    .then(res => res.json())
+submit() {
+    let formData = new FormData();
+    for(const file of this.state.files) {
+        formData.append("resumes", file);
+    }
+    fetch('http://172.16.75.99:8443/trp/uploadResume', {
+        method: 'POST',
+        body: formData
+    }).then(res => res.json())
     .then(
-    (result) => {
-        console.log(result)
-        if(result.responseCode.errorCode==="0"){
-        console.log("Uploaded successfully");
+      (result)=> {
+        console.log("updated successfully");
+        console.log(result);
         this.props.bulkUpload ? this.props.handelresume() : this.props.uploadresume(false,fileupl, fileupl.length);
         this.setState({uploadMsg: true})
-        }
-        else{
-        console.log("Unable to upload");
-    }}
-    ).catch(err => {
-    console.log(err)
+    }).catch(err => {
+        console.log(err);
     })
+   
 
-}
+//     var options = {
+//         method: 'POST',
+//         uri: 'http://172.16.75.99:8443/trp/uploadResume',
+//         headers: {
+//             // "contentType": "multipart/form-data",
+//             // "Content-Disposition": "form-data",
+//             // "name":"resumes"            
+//         },
+//         formData: {
+//             name: 'resumes',
+//             file: {
+//                 value: this.state.files
+//             }
+//         },
+//       //  json: true // Automatically stringifies the body to JSON
+//     };
+// // if(Object.keys(this.state.files).length > 0) {
+//     console.log("submited");
+//     console.log(this.state.files);
+//     //comment this code
+//     // this.setState({uploadMsg: true})
+//     rp(options)
+//     // fetch()
+//     .then(
+//     (result) => {
+//         console.log(result)
+//         if(result.status===200){
+//         console.log("Uploaded successfully");
+//         this.props.bulkUpload ? this.props.handelresume() : this.props.uploadresume(false,fileupl, fileupl.length);
+//         this.setState({uploadMsg: true})
+//         }
+//         else{
+//         console.log("Unable to upload");
+//     }}
+//     ).catch(err => {
+//     console.log(err)
+//     })
+
+// }
 }
 
 handleChange(e){
-for(let i =0; i< e.target.files.length; i++) {
-    fileupl.push(e.target.files[i]);
-}
-console.log(fileupl);
+    var input = e.target.files;
+    this.setState({
+        files: input
+    })
+//console.log(fileupl);
 this.setState({upload: true})
 }
 backtodatagrid(e){
@@ -66,8 +96,8 @@ return (
         <br />
         <center>
         <label className="custom-file-upload">
-            <input type="file" name="drag and drop" onChange={ (e) => this.handleChange(e) } multiple={this.props.bulkUpload}/>
-            {!this.state.upload ? "Click here to Upload Resume" : fileupl[0].name}
+            <input type="file" id="inpfile" encType="multipart/form-data"  onChange={ (e) => this.handleChange(e) } multiple={this.props.bulkUpload}/>
+            {!this.state.upload ? "Click here to Upload Resume" : 'file uploaded'}
         </label>
         <br /><br/>
         {this.state.uploadMsg ? "Uploaded Successfully" : ""}
@@ -80,3 +110,5 @@ return (
 }
 }
 export default Upload;
+
+

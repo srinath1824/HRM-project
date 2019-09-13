@@ -11,8 +11,9 @@ function Copyright() {
     left: '0',
     bottom: '0',
     width: '100%',
-    backgroundColor: '#bf4080',
+    backgroundColor: '#4527a0',
     color: 'white',
+    padding: '10px',
     textAlign: 'center'
 }
   return (
@@ -24,7 +25,7 @@ function Header() {
   const footerstyle = {
     margin: '0px',
     width: '100%',
-    backgroundColor: '#bf4080',
+    backgroundColor: '#5e35b1',
     textAlign: 'center',
     padding: '20px',
     display: 'block',

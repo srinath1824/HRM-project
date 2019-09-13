@@ -9,7 +9,7 @@ import Grid from '@material-ui/core/Grid';
 const Joi = require('joi');
 
 let errors = {};
-let updateData = {};
+// let this.state.getResourceById = {};
 class Profile extends Component {
   constructor(props) {
     super(props)
@@ -31,20 +31,20 @@ uploadresume(value, fileInput, length){
 }
 
 async componentWillMount() {
-  if(this.props.updateprofileflag){
+  if(!this.props.updateprofileflag){
   console.log(this.props.idSelected);
-  await fetch(`http://172.16.75.112:8081/trp/getResourceById/${this.props.idSelected.id}`)
+  await fetch(`http://172.16.75.99:8443/trp/getResourceById/${this.props.idSelected.id}`)
       .then(res => res.json())
             .then(
               (result) => {
                 console.log(result)
-                sessionStorage.setItem("data", JSON.stringify(result));
-                updateData = JSON.parse(sessionStorage.getItem("data"));
+                //sessionStorage.setItem("data", JSON.stringify(result));
+                //this.state.getResourceById = JSON.parse(sessionStorage.getItem("data"));
                 //JSON.parse(sessionStorage.getItem("data"));
                 this.setState({
-                  getResourceById: JSON.parse(sessionStorage.getItem("data"))
+                  getResourceById: result
                 })
-                console.log(updateData)
+                console.log(this.state.getResourceById)
                 return true
                 // this.props.handelprofile();
               }
@@ -54,9 +54,10 @@ async componentWillMount() {
 }
 }
 async submit() {
-    if(this.props.updateprofileflag ?true : this.validate() ) {
+    if(!this.props.updateprofileflag ?true : this.validate() ) {
       console.log("1111111111111111");
-      await fetch("http://172.16.75.112:8081/trp/saveResource",{
+      console.log(this.state.primaryPhone);
+      await fetch("http://172.16.75.99:8443/trp/saveResource",{
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -65,20 +66,21 @@ async submit() {
         body: JSON.stringify({
           createdUserId: sessionStorage.getItem('userId'),
           lastModifiedUserId: sessionStorage.getItem('userId'),
-          firstName: this.props.updateprofileflag  ?this.state.firstName :updateData.firstName  ,
-          lastName: this.props.updateprofileflag  ?  this.state.lastName: updateData.lastName,
-          resourceEmail: this.props.updateprofileflag  ? this.state.resourceEmail:updateData.resourceEmail,
-          city: this.props.updateprofileflag  ?  this.state.city: updateData.city,
-          clientName:this.props.updateprofileflag  ?  this.state.clientName:updateData.clientName,
-          currProject: this.props.updateprofileflag  ? this.state.currProject:updateData.currProject,
-          desiredPosition: this.props.updateprofileflag  ? this.state.desiredPosition:updateData.desiredPosition,
-          notes: this.props.updateprofileflag  ? this.state.notes:updateData.notes,
-          primaryPhone: this.props.updateprofileflag  ? this.state.primaryPhone: updateData.primaryPhone,
-          landLine: this.props.updateprofileflag  ? this.state.landLine:updateData.landLine,
-          prevProject: this.props.updateprofileflag  ? this.state.prevProject:updateData.prevProject,
-          relocate: this.props.updateprofileflag  ? this.state.relocate:updateData.relocate,
-          resourceExp: this.props.updateprofileflag  ? this.state.resourceExp:updateData.resourceExp,
-          zip: this.props.updateprofileflag  ? this.state.zip:updateData.zip,
+          resourceId: this.props.idSelected.id,
+          firstName: this.state.firstName  ? this.state.firstName :this.state.getResourceById.firstName  ,
+          lastName: this.state.lastName  ?  this.state.lastName: this.state.getResourceById.lastName,
+          resourceEmail: this.state.resourceEmail  ? this.state.resourceEmail:this.state.getResourceById.resourceEmail,
+          city: this.state.city  ?  this.state.city: this.state.getResourceById.city,
+          clientName:this. state.clientName ?  this.state.clientName:this.state.getResourceById.clientName,
+          currProject: this.state.currProject  ? this.state.currProject:this.state.getResourceById.currProject,
+          desiredPosition: this.state.desiredPosition  ? this.state.desiredPosition:this.state.getResourceById.desiredPosition,
+          notes: this.state.notes  ? this.state.notes:this.state.getResourceById.notes,
+          primaryPhone: this.state.primaryPhone  ? this.state.primaryPhone: this.state.getResourceById.primaryPhone,
+          landLine: this.state.landLine  ? this.state.landLine:this.state.getResourceById.landLine,
+          prevProject: this.state.prevProject  ? this.state.prevProject:this.state.getResourceById.prevProject,
+          relocate: this.state.relocate  ? this.state.relocate:this.state.getResourceById.relocate,
+          resourceExp: this.state.resourceExp  ? this.state.resourceExp:this.state.getResourceById.resourceExp,
+          zip: this.state.zip  ? this.state.zip:this.state.getResourceById.zip,
           }),
 
       })
@@ -102,17 +104,18 @@ this.props.handelprofile();
 
 handleChange(e) {
   this.setState({
-    [e.target.name] : e.target.value
+      [e.target.name] : e.target.value
   });
 }
 
 validate() {
+  console.log(this.state);
   errors={};
   let valueflag = false;
   const valid = {
-    FirstName: this.state.firstName,
-    LastName: this.state.lastName,
-    Email: this.state.resourceEmail,
+    FirstName: !this.props.updateprofileflag ? this.state.firstName:this.state.getResourceById,
+    LastName: !this.props.updateprofileflag ? this.state.lastName:this.state.getResourceById,
+    Email: !this.props.updateprofileflag ? this.state.resourceEmail:this.state.getResourceById,
   }
   const schema = {
     FirstName: Joi.string().min(5).max(15).required().error(new Error("FirstName is required")),
@@ -165,7 +168,7 @@ render() {
                   name="firstName"
                   variant="outlined"
                   placeholder="Enter Your Firstname"
-                  defaultValue={this.props.updateprofileflag  ? updateData.firstName : updateData.firstName}
+                  defaultValue={!this.props.updateprofileflag  ? this.state.getResourceById.firstName : this.state.firstName}
             />
             <div className="errorMsg">{errors["FirstName"]}</div>
             <label>LastName</label>
@@ -178,7 +181,7 @@ render() {
               name="lastName"
               variant="outlined"
               placeholder="Enter Your Lastname"
-              defaultValue={this.props.updateprofileflag ? updateData.lastName : this.state.lastName}
+              defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.lastName : this.state.lastName}
             />
             <div className="errorMsg">{errors["LastName"]}</div>
             <label>Email</label>
@@ -191,7 +194,7 @@ render() {
               name="resourceEmail"
               variant="outlined"
               placeholder="Enter Your Email"
-              defaultValue={this.props.updateprofileflag ? updateData.resourceEmail : this.state.resourceEmail}
+              defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.resourceEmail : this.state.resourceEmail}
             />
             <div className="errorMsg">{errors["Email"]}</div>
             <label>primaryPhone</label>
@@ -204,7 +207,7 @@ render() {
                   name="primaryPhone"
                   variant="outlined"
                   placeholder="Enter your primaryPhone no."
-                  defaultValue={this.props.updateprofileflag ? updateData.primaryPhone : this.state.primaryPhone}
+                  defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.primaryPhone : this.state.primaryPhone}
                 />
               <br/>
               <label>landLine</label>
@@ -217,7 +220,7 @@ render() {
                 name="landLine"
                 variant="outlined"
                 placeholder="Enter your landline no."
-                defaultValue={this.props.updateprofileflag ? updateData.landLine : this.state.landLine}
+                defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.landLine : this.state.landLine}
               />
               <br/>
               <label>Select a state</label>
@@ -240,7 +243,7 @@ render() {
               name="city"
               variant="outlined"
               placeholder="Enter your city"
-              defaultValue={this.props.updateprofileflag ? updateData.city : this.state.city}
+              defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.city : this.state.city}
             />
             <br/>
             <label>Select a zip code</label>
@@ -253,7 +256,7 @@ render() {
               name="zip"
               variant="outlined"
               placeholder="Enter your zipCode"
-              defaultValue={this.props.updateprofileflag ? updateData.zip : this.state.zip}
+              defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.zip : this.state.zip}
             />
             
             </Grid>
@@ -268,7 +271,7 @@ render() {
                   name="currProject"
                   variant="outlined"
                   placeholder="Enter your Project"
-                  defaultValue={this.props.updateprofileflag ? updateData.currProject : this.state.currProject}
+                  defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.currProject : this.state.currProject}
                 />
                 <br/>
                 <label>Previous Project</label>
@@ -281,7 +284,7 @@ render() {
                   name="prevProject"
                   variant="outlined"
                   placeholder="Desired Position"
-                  defaultalue={this.props.updateprofileflag ? updateData.prevProject : this.state.prevProject}
+                  defaultalue={!this.props.updateprofileflag ? this.state.getResourceById.prevProject : this.state.prevProject}
                 />
                 <br/>
                 <label>clientName</label>
@@ -294,14 +297,14 @@ render() {
                   name="clientName"
                   variant="outlined"
                   placeholder="Client name"
-                  defaultalue={this.props.updateprofileflag ? updateData.clientName : this.state.clientName}
+                  defaultalue={!this.props.updateprofileflag ? this.state.getResourceById.clientName : this.state.clientName}
                 />
                 <br/>
                 <label>Relocate</label>
                 <br/>
                 <select className="styled-select slate" name="relocate" onChange={(e) => this.handleChange(e)}
                   placeholder="Select a State" 
-                  defaultalue={this.props.updateprofileflag ? updateData.relocate : this.state.relocate}>
+                  defaultalue={!this.props.updateprofileflag ? this.state.getResourceById.relocate : this.state.relocate}>
                   <option value="None">Relocate</option>  
                   <option value="Yes">Yes</option>
                   <option value="No">No</option>
@@ -317,7 +320,7 @@ render() {
                 name="resourceExp"
                 variant="outlined"
                 placeholder="Experience"
-                defaultValue={this.props.updateprofileflag ? updateData.resourceExp : this.state.resourceExp}
+                defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.resourceExp : this.state.resourceExp}
               />
               <br/>
               <label>Skills</label>
@@ -342,7 +345,7 @@ render() {
               name="desiredPosition"
               variant="outlined"
               placeholder="Desired Position"
-              defaultValue={this.props.updateprofileflag ? updateData.desiredPosition : this.state.desiredPosition}
+              defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.desiredPosition : this.state.desiredPosition}
             />
             <br/>
             <label>Notes</label>
@@ -355,7 +358,7 @@ render() {
               name="notes"
               variant="outlined"
               placeholder="Notes"
-              defaultValue={this.props.updateprofileflag ? updateData.notes : this.state.notes}
+              defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.notes : this.state.notes}
             />
             <br/>
             <Button style={{margin: '10px'}} variant="contained" component="span" onClick={(e) => this.uploadresume(true,null,null)}>
