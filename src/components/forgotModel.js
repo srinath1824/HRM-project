@@ -8,7 +8,8 @@ class ForgotModel extends Component {
     constructor() {
         super();
         this.state = {
-            cancel: false
+            cancel: false,
+            errormessage: ''
         };
     }
 
@@ -17,6 +18,10 @@ handleChange(event) {
     }
     
 validateFrgtUsername() {
+    console.log("submitted");
+    // this.setState({
+    //     errormessage:"Invalid security question or username entered."
+    // });
 fetch("http://172.16.75.99:8443/trp/forgotUserId",{
     method: 'POST',
     headers: {
@@ -32,9 +37,7 @@ fetch("http://172.16.75.99:8443/trp/forgotUserId",{
     (result) => {  
     console.log(result) 
     if(result.responseCode.errorCode==="0"){
-        this.setState({
-        is_valid_user: true
-        })
+        this.props.handleUser();
     }
     else{this.setState({
         errormessage:"Invalid security question or email entered."
@@ -46,13 +49,14 @@ fetch("http://172.16.75.99:8443/trp/forgotUserId",{
 }
 
 validateFrgtPasswd() {
+    console.log("submitted");
 fetch("http://172.16.75.99:8443/trp/forgotPwd",{
     method: 'POST',
     headers: {
     'Content-Type': 'application/json',
     'cache-control': 'no-cache',
     },  body: JSON.stringify({
-    securityQuestion: this.state.security_question,
+    securityQuestion: this.state.frgtpasswd_question,
     userId: this.state.security_username
     }),
 })
@@ -61,9 +65,7 @@ fetch("http://172.16.75.99:8443/trp/forgotPwd",{
     (result) => {  
     console.log(result) 
     if(result.responseCode.errorCode==="0"){
-        this.setState({
-        is_valid_user: true
-        })
+        this.props.handleUser();
     }
     else{this.setState({
         errormessage:"Invalid security question or username entered."
@@ -86,6 +88,7 @@ render() {
         <div>
         <Modal className='modal-dialog' show={this.props.forgotuser} onHide={() => this.handleClose()}>
         <Modal.Title><h1>Forgot Username</h1></Modal.Title>
+        <p style={{color: "red"}}>{this.state.errormessage}</p>
         <Modal.Header />
         <Modal.Body className='modal-content'>
         <TextField
@@ -94,7 +97,7 @@ render() {
             name="security_question"
             onChange={(e) => this.handleChange(e)}
             margin="normal"
-        />
+        /><br/>
         <TextField
             id="security_username"
             label="Enter Username"
@@ -102,7 +105,7 @@ render() {
             onChange={(e) => this.handleChange(e)}
             margin="normal"
         />
-        </Modal.Body>
+        </Modal.Body><br/>
         <Modal.Footer>
         <Button variant="contained" color="primary" onClick={() => this.validateFrgtUsername()}>
             Submit
@@ -114,23 +117,24 @@ render() {
     </Modal>
     <Modal show={this.props.forgotpassword} onHide={() => this.handlePasswdClose()}>
         <Modal.Title><h1>Forgot Password</h1></Modal.Title>
+        <p style={{color: "red"}}>{this.state.errormessage}</p>
         <Modal.Header />
         <Modal.Body>
         <TextField
             id="security_question"
             label="Enter security question"
-            name="security_question"
+            name="frgtpasswd_question"
             onChange={(e) => this.handleChange(e)}
             margin="normal"
-        />
+        /><br/>
         <TextField
-            id="security_username"
+            id="security_email"
             label="Enter email"
             name="security_email"
             onChange={(e) => this.handleChange(e)}
             margin="normal"
         />
-        </Modal.Body>
+        </Modal.Body><br/>
         <Modal.Footer>
         <Button variant="contained" color="primary" onClick={() => this.validateFrgtPasswd()}>
             Submit
@@ -138,6 +142,7 @@ render() {
         <Button style={{marginLeft: '10px'}} variant="contained" color="primary" onClick={() => this.cancel()}>
             Cancel
         </Button>
+        <br/>
         </Modal.Footer>
         </Modal>
         </div>

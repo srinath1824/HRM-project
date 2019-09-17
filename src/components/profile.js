@@ -87,7 +87,8 @@ async submit() {
       .then(res => res.json())
             .then(
               (result) => {
-                console.log(result)
+                console.log(result);
+                alert("Profile Saved Successfully");
                 this.setState({
                   postResult: true
                 } )
@@ -110,12 +111,14 @@ handleChange(e) {
 
 validate() {
   console.log(this.state);
+  console.log(this.props.updateprofileflag);
+  console.log(this.state.getResourceById);
   errors={};
   let valueflag = false;
   const valid = {
-    FirstName: !this.props.updateprofileflag ? this.state.firstName:this.state.getResourceById,
-    LastName: !this.props.updateprofileflag ? this.state.lastName:this.state.getResourceById,
-    Email: !this.props.updateprofileflag ? this.state.resourceEmail:this.state.getResourceById,
+    FirstName: !this.props.updateprofileflag ? this.state.getResourceById.firstName :this.state.firstName,
+    LastName: !this.props.updateprofileflag ? this.state.getResourceById.lastName : this.state.lastName,
+    Email: !this.props.updateprofileflag ? this.state.getResourceById.resourceEmail : this.state.resourceEmail,
   }
   const schema = {
     FirstName: Joi.string().min(5).max(15).required().error(new Error("FirstName is required")),

@@ -8,6 +8,8 @@ import theme from './theme';
 function Copyright() {
   const footerstyle = {
     position: 'fixed',
+    display: 'flex',
+    justifyItems: 'bottom',
     left: '0',
     bottom: '0',
     width: '100%',

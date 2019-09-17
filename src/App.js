@@ -16,7 +16,8 @@ class App extends React.Component {
       formIsValid: false,
       register: false,
       forgotuser: false,
-      forgotpassword: false
+      forgotpassword: false,
+      errormessage: ""
     }
   }
   
@@ -108,6 +109,10 @@ handlePasswdClose() {
   this.setState({ forgotpassword: false });
 }
 
+handleUser() {
+  this.setState({is_valid_user: true});
+}
+
   render() {
     if(this.state.register) {
       return (
@@ -130,7 +135,7 @@ handlePasswdClose() {
       <ForgotModel
         forgotuser={this.state.forgotuser}
         forgotpassword = {this.state.forgotpassword} 
-        
+        handleUser = {() => this.handleUser()}
         /> :
         <Container maxWidth="sm">
         <br /><br /><br />
@@ -138,6 +143,7 @@ handlePasswdClose() {
           Sign In
         </Typography>
             <br />
+            <div style={{color: 'red'}}>{this.state.errormessage}</div>
             <TextField
               id="username"
               label="Enter Username"

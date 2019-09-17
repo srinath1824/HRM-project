@@ -4,8 +4,4 @@
     align-items: center;
     justify-content: center;
     height: unquote("calc(100vh - 20px)");
-
-    .modal-content {
-        width: 100%;
-    }
 }

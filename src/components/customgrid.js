@@ -224,10 +224,12 @@ class Customgrid extends Component {
         fetch(`http://172.16.75.99:8443/trp/getResumeById/${id}`)
             .then(t => {
                 return t.blob().then( b => {
-                      var a = document.createElement("a");        
-                       a.href = URL.createObjectURL(b);       
-                         a.setAttribute("download", id);  
-                      a.click(); 
+                    var a = document.createElement("a");        
+                    a.href = URL.createObjectURL(b);
+                    a.download = `${id}_file.docx`;
+                    // a.setAttribute("download", id);
+                    a.click();
+                    alert("Downloaded successfully");
                 });
             });
     }
