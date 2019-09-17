@@ -49,11 +49,11 @@ class App extends React.Component {
 
   validate() {
 
-    //comment this
-    this.setState({
-      is_valid_user: true
-    });
-    //-------------------
+    // //comment this
+    // this.setState({
+    //   is_valid_user: true
+    // });
+    // //-------------------
       
     console.log(this.state)
     this.state.username === "" ?
@@ -77,7 +77,7 @@ class App extends React.Component {
     .then(
       (result) => {  
         console.log(result) 
-        if(result.responseCode.errorCode==="0"){
+        if(result.responseCode!==null){
           sessionStorage.setItem('userId',this.state.username);
           this.setState({
             is_valid_user: true

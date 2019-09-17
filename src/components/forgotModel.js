@@ -15,6 +15,7 @@ class ForgotModel extends Component {
 
 handleChange(event) {
     this.setState({[event.target.name]: event.target.value});
+    console.log(this.state);
     }
     
 validateFrgtUsername() {
@@ -23,13 +24,14 @@ validateFrgtUsername() {
     //     errormessage:"Invalid security question or username entered."
     // });
 fetch("http://172.16.75.99:8443/trp/forgotUserId",{
+    
     method: 'POST',
     headers: {
     'Content-Type': 'application/json',
     'cache-control': 'no-cache',
     },  body: JSON.stringify({
     securityQuestion: this.state.security_question,
-    userId: this.state.security_email
+    userEmail: this.state.security_email
     }),
 })
 .then(res => res.json())
@@ -100,7 +102,7 @@ render() {
         /><br/>
         <TextField
             id="security_username"
-            label="Enter Username"
+            label="Enter Email"
             name="security_username"
             onChange={(e) => this.handleChange(e)}
             margin="normal"

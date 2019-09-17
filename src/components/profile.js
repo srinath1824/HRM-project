@@ -17,16 +17,17 @@ class Profile extends Component {
       upload:false,
       flag: false,
       postResult: false,
-      getResourceById: {}
+      getResourceById: {},
+      files: {}
     }
 
   }
 uploadresume(value, fileInput, length){
+  console.log(fileInput);
   this.setState({
     upload:value,
   });
-  if(length === 1) {
-  }
+  this.setState({files: fileInput})
 
 }
 
@@ -66,7 +67,7 @@ async submit() {
         body: JSON.stringify({
           createdUserId: sessionStorage.getItem('userId'),
           lastModifiedUserId: sessionStorage.getItem('userId'),
-          resourceId: this.props.idSelected.id,
+          resourceId: this.props.addProfile ? "" : this.props.idSelected.id,
           firstName: this.state.firstName  ? this.state.firstName :this.state.getResourceById.firstName  ,
           lastName: this.state.lastName  ?  this.state.lastName: this.state.getResourceById.lastName,
           resourceEmail: this.state.resourceEmail  ? this.state.resourceEmail:this.state.getResourceById.resourceEmail,
@@ -81,6 +82,11 @@ async submit() {
           relocate: this.state.relocate  ? this.state.relocate:this.state.getResourceById.relocate,
           resourceExp: this.state.resourceExp  ? this.state.resourceExp:this.state.getResourceById.resourceExp,
           zip: this.state.zip  ? this.state.zip:this.state.getResourceById.zip,
+          resourceResumeDTO: {
+            createdUserId: sessionStorage.getItem('userId'),
+            lastModifiedUserId: sessionStorage.getItem('userId'),
+            resumeDoc: this.state.files,
+          }
           }),
 
       })
