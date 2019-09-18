@@ -21,12 +21,13 @@ submit() {
     for(const file of this.state.files) {
         formData.append("resumes", file);
     }
-    fetch('http://172.16.75.99:8443/trp/uploadResume', {
+    if(this.props.bulkUpload) {
+        fetch('http://172.16.75.99:8443/trp/uploadResume', {
         method: 'POST',
         body: formData
     }).then(res => res.json())
     .then(
-      (result)=> {
+    (result)=> {
         console.log("updated successfully");
         console.log(result);
         this.props.bulkUpload ? this.props.handelresume() : this.props.uploadresume(false,fileupl, fileupl.length);
@@ -34,7 +35,12 @@ submit() {
     }).catch(err => {
         console.log(err);
     })
-   
+    } else {
+        console.log(formData)
+        this.props.singleResume(formData);
+    }
+    
+
 
 //     var options = {
 //         method: 'POST',

@@ -22,13 +22,17 @@ class Profile extends Component {
     }
 
   }
+
+singleResume(resume) {
+  console.log("3333")
+  this.setState({files: resume});
+  console.log(this.state);
+}
+
 uploadresume(value, fileInput, length){
-  console.log(fileInput);
   this.setState({
     upload:value,
   });
-  this.setState({files: fileInput})
-
 }
 
 async componentWillMount() {
@@ -157,7 +161,7 @@ return valueflag;
 render() {
   if(this.state.upload){
   return(
-  <Upload bulkUpload={false} uploadresume={() => this.uploadresume()}/>
+  <Upload bulkUpload={false} uploadresume={() => this.uploadresume()} singleResume={()=> this.singleResume()}/>
   )
   }
   

@@ -20,6 +20,7 @@ handleChange(event) {
     
 validateFrgtUsername() {
     console.log("submitted");
+    console.log(this.state);
     // this.setState({
     //     errormessage:"Invalid security question or username entered."
     // });
@@ -52,6 +53,7 @@ fetch("http://172.16.75.99:8443/trp/forgotUserId",{
 
 validateFrgtPasswd() {
     console.log("submitted");
+    console.log(this.state);
 fetch("http://172.16.75.99:8443/trp/forgotPwd",{
     method: 'POST',
     headers: {
@@ -59,7 +61,7 @@ fetch("http://172.16.75.99:8443/trp/forgotPwd",{
     'cache-control': 'no-cache',
     },  body: JSON.stringify({
     securityQuestion: this.state.frgtpasswd_question,
-    userId: this.state.security_username
+    userId: this.state.security_userid
     }),
 })
 .then(res => res.json())
@@ -101,9 +103,9 @@ render() {
             margin="normal"
         /><br/>
         <TextField
-            id="security_username"
+            id="security_email"
             label="Enter Email"
-            name="security_username"
+            name="security_email"
             onChange={(e) => this.handleChange(e)}
             margin="normal"
         />
@@ -130,9 +132,9 @@ render() {
             margin="normal"
         /><br/>
         <TextField
-            id="security_email"
-            label="Enter email"
-            name="security_email"
+            id="security_userid"
+            label="Enter userid"
+            name="security_userid"
             onChange={(e) => this.handleChange(e)}
             margin="normal"
         />

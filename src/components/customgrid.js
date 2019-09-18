@@ -87,7 +87,7 @@ class Customgrid extends Component {
             } else if(username && !userRole){
                 return (((v.Name.toLowerCase()).includes(username.toLowerCase())))
             } else if(!username && userRole) {
-               return ((v.Role.toLowerCase()).includes(userRole.toLowerCase()));
+                return ((v.Role.toLowerCase()).includes(userRole.toLowerCase()));
             }
             //return ((v["Name"] === username) || v.Role === userRole);
             
@@ -224,12 +224,15 @@ class Customgrid extends Component {
         fetch(`http://172.16.75.99:8443/trp/getResumeById/${id}`)
             .then(t => {
                 return t.blob().then( b => {
-                    var a = document.createElement("a");        
-                    a.href = URL.createObjectURL(b);
+                    var a = document.createElement('a');        
+                    a.href = window.URL.createObjectURL(b);
+                    a.setAttribute("download", `sample.${id}`);
+                    document.body.appendChild(a);
                     a.download = `${id}_file.docx`;
-                    // a.setAttribute("download", id);
                     a.click();
                     alert("Downloaded successfully");
+                    //a.parentNode.removeChild(a);
+                    document.body.removeChild(a);
                 });
             });
     }
@@ -291,6 +294,34 @@ class Customgrid extends Component {
                 this.setState({errormessage:"Something went wrong"})
             })
         }
+
+        componentWillReceiveProps() {
+            fetch("http://172.16.75.99:8443/trp/searchResource",{
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                'cache-control': 'no-cache',
+                },  body: JSON.stringify({}),
+                })
+                .then(res => res.json())
+                .then(result => {
+                    console.log(result)
+                    if(result.responseCode.errorCode==="0"){
+                        this.setState({data: result})
+                        console.log(this.state.data)
+                    }
+                    else{
+                        this.setState({errormessage:"Invalid User Id or Password."})
+                    }
+                    }
+                    )
+                .catch(err => {
+                    console.log(err)
+                    this.setState({errormessage:"Something went wrong"})
+                })
+            }
+
+
     render() {
         if (this.state.addprofileclicked) {
             return (
