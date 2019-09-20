@@ -18,7 +18,8 @@ class Profile extends Component {
       flag: false,
       postResult: false,
       getResourceById: {},
-      files: {}
+      files: {},
+      states: []
     }
 
   }
@@ -36,6 +37,20 @@ uploadresume(value, fileInput, length){
 }
 
 async componentWillMount() {
+  await fetch('http://172.16.75.99:8443/trp/getStatesById/US')
+    .then(res => res.json())
+    .then(
+      (result) => {
+        console.log(result);
+        alert("States Saved Successfully");
+        this.setState({
+          states: result
+        } )
+      }
+    ).catch(err => {
+      console.log(err)
+    })
+
   if(!this.props.updateprofileflag){
   console.log(this.props.idSelected);
   await fetch(`http://172.16.75.99:8443/trp/getResourceById/${this.props.idSelected.id}`)
@@ -113,7 +128,9 @@ backtodatagrid(){
 this.props.handelprofile();
 }
 
-handleChange(e) {
+async handleChange(e) {
+  console.log(e.target.value);
+  
   this.setState({
       [e.target.name] : e.target.value
   });
@@ -164,7 +181,9 @@ render() {
   <Upload bulkUpload={false} uploadresume={() => this.uploadresume()} singleResume={()=> this.singleResume()}/>
   )
   }
-  
+  let stateValue = this.state.states.map(value => 
+    <option value={value.stateNm}>{value.stateCd}</option>
+)
     return (
       <div style={{backgroundColor: '#e0ebeb', textAlign: 'center'}}>
         <br/>
@@ -241,9 +260,10 @@ render() {
             <select name="state" className="styled-select slate" onChange={(e) => this.handleChange(e)}
               placeholder="Select a State" >
               <option value="None">Select a state</option>
-              <option value="TN">Tennessee</option>
+              {stateValue}
+              {/* <option value="TN">Tennessee</option>
               <option value="WS">Washington</option>
-              <option value="MEX">Mexico</option>
+              <option value="MEX">Mexico</option> */}
             </select>
             <br/>
             <label>Enter a city</label>
