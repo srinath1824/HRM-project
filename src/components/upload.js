@@ -20,9 +20,19 @@ submit() {
 
     let formData = new FormData();
     for(const file of this.state.files) {
-        formData.append("resumes", file);
-    }
+        // un comment this
+        //formData.append("resumes", file);
+        //
 
+        //-----try this---------------
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (e) => {
+            console.log(e.target.result);
+            formData.append("resumes", e.target.result);
+        }
+        //--------------------
+    }
     if(this.props.bulkUpload) {
         fetch('http://172.16.75.99:8443/trp/uploadResume', {
         method: 'POST',
@@ -46,53 +56,8 @@ submit() {
             console.log(e.target.result);
             this.props.singleResume(e.target.result);
         }
-
-        // let resume = this.state.files;
-        // console.log(resume);
-        // this.props.singleResume(resume);
     }
     
-
-
-//     var options = {
-//         method: 'POST',
-//         uri: 'http://172.16.75.99:8443/trp/uploadResume',
-//         headers: {
-//             // "contentType": "multipart/form-data",
-//             // "Content-Disposition": "form-data",
-//             // "name":"resumes"            
-//         },
-//         formData: {
-//             name: 'resumes',
-//             file: {
-//                 value: this.state.files
-//             }
-//         },
-//       //  json: true // Automatically stringifies the body to JSON
-//     };
-// // if(Object.keys(this.state.files).length > 0) {
-//     console.log("submited");
-//     console.log(this.state.files);
-//     //comment this code
-//     // this.setState({uploadMsg: true})
-//     rp(options)
-//     // fetch()
-//     .then(
-//     (result) => {
-//         console.log(result)
-//         if(result.status===200){
-//         console.log("Uploaded successfully");
-//         this.props.bulkUpload ? this.props.handelresume() : this.props.uploadresume(false,fileupl, fileupl.length);
-//         this.setState({uploadMsg: true})
-//         }
-//         else{
-//         console.log("Unable to upload");
-//     }}
-//     ).catch(err => {
-//     console.log(err)
-//     })
-
-// }
 }
 
 handleChange(e){
