@@ -197,13 +197,13 @@ class Customgrid extends Component {
     wip() {
         this.setState({wip: true});
         //uncomment
-       resume = this.state.data.wipResourceDetailDTO.wipResourceDetailList;
+    resume = this.state.data.wipResourceDetailDTO.wipResourceDetailList;
         this.filteredData(resume);
     }
     oldResume(){
         this.setState({oldResume: true});
         //uncomment
-      resume = this.state.data.compResourceDetailDTO.compResourceDetailList;
+    resume = this.state.data.compResourceDetailDTO.compResourceDetailList;
         this.filteredData(resume);
     }
     // uploadResume(index, file) {
@@ -226,11 +226,12 @@ class Customgrid extends Component {
                 return t.blob().then( b => {
                     var a = document.createElement('a');        
                     a.href = window.URL.createObjectURL(b);
-                    a.setAttribute("download", `sample.${id}`);
-                    document.body.appendChild(a);
+                    //a.setAttribute("download", `sample.${id}`);
+                    //document.body.appendChild(a);
                     a.download = `${id}_file.docx`;
                     a.click();
                     alert("Downloaded successfully");
+                    a.remove();
                     //a.parentNode.removeChild(a);
                     document.body.removeChild(a);
                 });

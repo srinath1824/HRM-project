@@ -24,10 +24,13 @@ class Profile extends Component {
 
   }
 
-singleResume(resume) {
-  console.log("3333")
+singleResume = (resume) => {
+  console.log(resume)
   this.setState({files: resume});
-  console.log(this.state);
+  this.setState({
+    upload:false,
+  });
+  
 }
 
 uploadresume(value, fileInput, length){
@@ -102,6 +105,8 @@ async submit() {
           resourceExp: this.state.resourceExp  ? this.state.resourceExp:this.state.getResourceById.resourceExp,
           zip: this.state.zip  ? this.state.zip:this.state.getResourceById.zip,
           resourceResumeDTO: {
+            createdTs: new Date(),
+            lastModifiedTs: new Date(),
             createdUserId: sessionStorage.getItem('userId'),
             lastModifiedUserId: sessionStorage.getItem('userId'),
             resumeDoc: this.state.files,
@@ -178,7 +183,7 @@ return valueflag;
 render() {
   if(this.state.upload){
   return(
-  <Upload bulkUpload={false} uploadresume={() => this.uploadresume()} singleResume={()=> this.singleResume()}/>
+  <Upload bulkUpload={false} uploadresume={() => this.uploadresume()} singleResume={this.singleResume}/>
   )
   }
   let stateValue = this.state.states.map(value => 
