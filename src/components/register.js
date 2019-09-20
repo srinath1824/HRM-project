@@ -27,7 +27,7 @@ export default class Register extends Component {
     }
     async submituserRegistrationForm(e) {
     // comment this code
-    //this.setState({is_valid_user: true});
+    // this.setState({is_valid_user: true});
     //--------------------------
     e.preventDefault();
     if (this.validateForm()) {
@@ -182,7 +182,7 @@ render() {
 
     <div className='Signup-form'>
         
-        <form method="post"  name="userRegistrationForm" onSubmit= {()=>this.submituserRegistrationForm()} >
+        <form method="post"  name="userRegistrationForm" >
         
         <Grid container justify = "center">
             <Grid justify = "center" item xs={3}>
@@ -266,7 +266,7 @@ render() {
             <Button style={{display: 'inline-block', left: '42%',position: 'relative'}} variant="contained" color="primary" onClick={() => this.canclebtn()}>
                 Cancel
             </Button>
-            <Button style={{display: 'inline-block', left: '42%', marginLeft: '10px', position: 'relative'}} type="submit" variant="contained" color="primary">
+            <Button style={{display: 'inline-block', left: '42%', marginLeft: '10px', position: 'relative'}} onClick={(e)=>this.submituserRegistrationForm(e)} variant="contained" color="primary">
                 Register
             </Button>
         </form>
