@@ -21,16 +21,16 @@ submit() {
     let formData = new FormData();
     for(const file of this.state.files) {
         // un comment this
-        //formData.append("resumes", file);
+        formData.append("resumes", file);
         //
 
         //-----try this---------------
-        let reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = (e) => {
-            console.log(e.target.result);
-            formData.append("resumes", e.target.result);
-        }
+        // let reader = new FileReader();
+        // reader.readAsDataURL(file);
+        // reader.onload = (e) => {
+        //     console.log(e.target.result);
+        //     formData.append("resumes", e.target.result);
+        // }
         //--------------------
     }
     if(this.props.bulkUpload) {

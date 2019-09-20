@@ -50,9 +50,9 @@ class App extends React.Component {
   validate() {
 
     // //comment this
-    this.setState({
-      is_valid_user: true
-    });
+    // this.setState({
+    //   is_valid_user: true
+    // });
     // //-------------------
       
     console.log(this.state)

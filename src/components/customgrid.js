@@ -232,8 +232,7 @@ urltoFile(url, filename, mimeType){
         console.log(id);
         //----------
         this.urltoFile(`http://172.16.75.99:8443/trp/getResumeById/${id}`, `${id}_file.docx`, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-        .then(function(file){
-            return file.blob().then( b => {
+        .then( b => {
                 var a = document.createElement('a');        
                 a.href = window.URL.createObjectURL(b);
                 //a.setAttribute("download", `sample.${id}`);
@@ -243,49 +242,48 @@ urltoFile(url, filename, mimeType){
                 alert("Downloaded successfully");
                 a.remove();
                 //a.parentNode.removeChild(a);
-                document.body.removeChild(a);
+                //document.body.removeChild(a);
             });
-        });
         //----------
 
         // trying with http 
-            const http = require('http');
-            const fs = require('fs');
+            // const http = require('http');
+            // const fs = require('fs');
 
-            const file = fs.createWriteStream("file.jpg");
-            const request = http.get(`http://172.16.75.99:8443/trp/getResumeById/${id}`, function(response) {
-                response.pipe(file);
-            });
-            request.t.blob().then(b => {
-                var a = document.createElement('a');        
-                a.href = window.URL.createObjectURL(b);
-                //a.setAttribute("download", `sample.${id}`);
-                //document.body.appendChild(a);
-                a.download = `${id}_file.docx`;
-                a.click();
-                alert("Downloaded successfully");
-                a.remove();
-                //a.parentNode.removeChild(a);
-                document.body.removeChild(a);
-            })
+            // const file = fs.createWriteStream("file.jpg");
+            // const request = http.get(`http://172.16.75.99:8443/trp/getResumeById/${id}`, function(response) {
+            //     response.pipe(file);
+            // });
+            // request.t.blob().then(b => {
+            //     var a = document.createElement('a');        
+            //     a.href = window.URL.createObjectURL(b);
+            //     //a.setAttribute("download", `sample.${id}`);
+            //     //document.body.appendChild(a);
+            //     a.download = `${id}_file.docx`;
+            //     a.click();
+            //     alert("Downloaded successfully");
+            //     a.remove();
+            //     //a.parentNode.removeChild(a);
+            //     document.body.removeChild(a);
+            // })
         //-----------------------
         
         // -----------Actual code---------
-        fetch(`http://172.16.75.99:8443/trp/getResumeById/${id}`)
-            .then(t => {
-                return t.blob().then( b => {
-                    var a = document.createElement('a');        
-                    a.href = window.URL.createObjectURL(b);
-                    //a.setAttribute("download", `sample.${id}`);
-                    //document.body.appendChild(a);
-                    a.download = `${id}_file.docx`;
-                    a.click();
-                    alert("Downloaded successfully");
-                    a.remove();
-                    //a.parentNode.removeChild(a);
-                    document.body.removeChild(a);
-                });
-            });
+        // fetch(`http://172.16.75.99:8443/trp/getResumeById/${id}`)
+        //     .then(t => {
+        //         return t.blob().then( b => {
+        //             var a = document.createElement('a');        
+        //             a.href = window.URL.createObjectURL(b);
+        //             //a.setAttribute("download", `sample.${id}`);
+        //             //document.body.appendChild(a);
+        //             a.download = `${id}_file.docx`;
+        //             a.click();
+        //             alert("Downloaded successfully");
+        //             a.remove();
+        //             //a.parentNode.removeChild(a);
+        //             // document.body.removeChild(a);
+        //         });
+        //     });
         // ---------------------------------------
     }
 
@@ -347,7 +345,7 @@ urltoFile(url, filename, mimeType){
             })
         }
 
-        componentWillReceiveProps() {
+        componentWillMount() {
             fetch("http://172.16.75.99:8443/trp/searchResource",{
                 method: 'POST',
                 headers: {

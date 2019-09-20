@@ -19,7 +19,8 @@ class Profile extends Component {
       postResult: false,
       getResourceById: {},
       files: {},
-      states: []
+      states: [],
+      CountryState: ''
     }
 
   }
@@ -104,6 +105,7 @@ async submit() {
           relocate: this.state.relocate  ? this.state.relocate:this.state.getResourceById.relocate,
           resourceExp: this.state.resourceExp  ? this.state.resourceExp:this.state.getResourceById.resourceExp,
           zip: this.state.zip  ? this.state.zip:this.state.getResourceById.zip,
+          state: this.state.state ? this.state.state : this.state.getResourceById.state,
           resourceResumeDTO: {
             createdTs: new Date(),
             lastModifiedTs: new Date(),
@@ -153,8 +155,8 @@ validate() {
     Email: !this.props.updateprofileflag ? this.state.getResourceById.resourceEmail : this.state.resourceEmail,
   }
   const schema = {
-    FirstName: Joi.string().min(5).max(15).required().error(new Error("FirstName is required")),
-    LastName: Joi.string().min(5).max(15).required().error(new Error("LastName is required")),
+    FirstName: Joi.string().min(3).max(15).required().error(new Error("FirstName is required")),
+    LastName: Joi.string().min(3).max(15).required().error(new Error("LastName is required")),
     Email: Joi.string().required().email({ minDomainAtoms: 2 }).error(new Error("Valid Email is required")),
 };
 Joi.validate(valid, schema, (err,value)=> {
@@ -180,6 +182,11 @@ Joi.validate(valid, schema, (err,value)=> {
 return valueflag;
 }
 
+// handleState(e) {
+//   console.log(e.target.name);
+//   this.setState({CountryState: e.target.value})
+// }
+
 render() {
   if(this.state.upload){
   return(
@@ -187,7 +194,10 @@ render() {
   )
   }
   let stateValue = this.state.states.map(value => 
-    <option value={value.stateNm}>{value.stateCd}</option>
+    <option 
+    value={value.stateCd}
+    defaultValue={!this.props.updateprofileflag  ? this.state.getResourceById.state : this.state.state}
+    >{value.stateCd}</option>
 )
     return (
       <div style={{backgroundColor: '#e0ebeb', textAlign: 'center'}}>
@@ -264,11 +274,12 @@ render() {
               <br/>
             <select name="state" className="styled-select slate" onChange={(e) => this.handleChange(e)}
               placeholder="Select a State" >
-              <option value="None">Select a state</option>
+              <option 
+              // defaultValue={!this.props.updateprofileflag  ? this.state.getResourceById.state : this.state.state}
+              value="None"
+              >{!this.props.updateprofileflag ? this.state.getResourceById.state : "Select a state" }</option>
               {stateValue}
-              {/* <option value="TN">Tennessee</option>
-              <option value="WS">Washington</option>
-              <option value="MEX">Mexico</option> */}
+  
             </select>
             <br/>
             <label>Enter a city</label>
