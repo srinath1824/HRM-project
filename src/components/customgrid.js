@@ -18,7 +18,7 @@ const columns = [
     { key: 'Role', name: 'Role' },
     { key: 'Status', name: 'Status' },
     { key: 'resume', name: 'resume' },
-    { key: 'details', name: 'Details' }
+    // { key: 'details', name: 'Details' }
 ]
 
 const details = ['id','Date','Name','phone','Role','visa','status','resume','details']
@@ -304,7 +304,7 @@ urltoFile(url, filename, mimeType){
             rows['phone'] = primaryPhone;
             rows['Role'] = desiredPosition ? desiredPosition : 'N/A';
             rows['resume'] = resId && <CloudDownloadIcon onClick={() => this.downloadResume(resId)} fontSize="small"/>
-            rows['details'] = details;
+            // rows['details'] = details;
             // rows['Name'] = singleRow.Name;
             // rows['Status'] = singleRow.Status;
             // rows['Date'] = singleRow.Date;
@@ -438,7 +438,7 @@ urltoFile(url, filename, mimeType){
                         columns={columns}
                         rowGetter={i => this.state.rows[i]}
                         rowsCount={this.state.rows.length}
-                        minHeight={500}
+                        minHeight={700}
                         rowSelection={{
                             showCheckbox: true,
                             enableShiftSelect: false,

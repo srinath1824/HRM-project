@@ -7,7 +7,7 @@ import theme from './theme';
 
 function Copyright() {
   const footerstyle = {
-    position: 'fixed',
+    position: 'relative',
     display: 'flex',
     justifyItems: 'bottom',
     left: '0',
@@ -45,7 +45,7 @@ ReactDOM.render(
     <CssBaseline />
     <Header/>
     <App />
-    <br/><br/><br/><br/><br/><br/><br/><br/>
+    {/* <br/><br/><br/><br/><br/><br/><br/><br/> */}
     <Copyright />
   </ThemeProvider>,
   document.querySelector('#root'),

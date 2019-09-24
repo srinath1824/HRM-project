@@ -4,7 +4,7 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Upload from './upload';
 import './profile.css';
 import Grid from '@material-ui/core/Grid';
-
+import Customgrid from './customgrid';
 
 const Joi = require('joi');
 
@@ -46,7 +46,7 @@ async componentWillMount() {
     .then(
       (result) => {
         console.log(result);
-        alert("States Saved Successfully");
+        // alert("States Saved Successfully");
         this.setState({
           states: result
         } )
@@ -124,7 +124,8 @@ async submit() {
                 this.setState({
                   postResult: true
                 } )
-                this.props.handelprofile();
+                //this.props.handelprofile();
+
               }
             ).catch(err => {
               console.log(err)
@@ -193,11 +194,15 @@ render() {
   <Upload bulkUpload={false} uploadresume={() => this.uploadresume()} singleResume={this.singleResume}/>
   )
   }
+
+  if(this.state.postResult) {
+    return <Customgrid />
+  }
   let stateValue = this.state.states.map(value => 
     <option 
     value={value.stateCd}
     defaultValue={!this.props.updateprofileflag  ? this.state.getResourceById.state : this.state.state}
-    >{value.stateCd}</option>
+    >{value.stateNm}</option>
 )
     return (
       <div style={{backgroundColor: '#e0ebeb', textAlign: 'center'}}>

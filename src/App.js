@@ -180,6 +180,10 @@ handleUser() {
             onClick={() => this.registration(true)}>Register Now</Link>
             <br />
             <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
       </Container> }
     </React.Fragment>
   )};
