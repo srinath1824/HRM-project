@@ -210,7 +210,7 @@ render() {
         <h1>{ this.props.addProfile ? "Add Profile" : "Update Profile"}</h1>
         <Grid container spacing={3}>
             <Grid item xs={6}>
-              <label>Firstname</label>
+              <label>First Name</label>
               <br/>
               <input
                   id="firstName"
@@ -223,7 +223,7 @@ render() {
                   defaultValue={!this.props.updateprofileflag  ? this.state.getResourceById.firstName : this.state.firstName}
             />
             <div className="errorMsg">{errors["FirstName"]}</div>
-            <label>LastName</label>
+            <label>Last Name</label>
             <br/>
             <input
               id="LastName"
@@ -249,7 +249,7 @@ render() {
               defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.resourceEmail : this.state.resourceEmail}
             />
             <div className="errorMsg">{errors["Email"]}</div>
-            <label>primaryPhone</label>
+            <label>Primary Phone</label>
             <br/>
                 <input
                   id="primaryPhone"
@@ -262,7 +262,7 @@ render() {
                   defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.primaryPhone : this.state.primaryPhone}
                 />
               <br/>
-              <label>landLine</label>
+              <label>Secondary Phone</label>
             <br/>
               <input
                 id="landLine"
@@ -275,7 +275,7 @@ render() {
                 defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.landLine : this.state.landLine}
               />
               <br/>
-              <label>Select a state</label>
+              <label>Select a State</label>
               <br/>
             <select name="state" className="styled-select slate" onChange={(e) => this.handleChange(e)}
               placeholder="Select a State" >
@@ -287,7 +287,7 @@ render() {
   
             </select>
             <br/>
-            <label>Enter a city</label>
+            <label>Enter a City</label>
               <br/>
             <input
               id="city"
@@ -300,7 +300,7 @@ render() {
               defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.city : this.state.city}
             />
             <br/>
-            <label>Select a zip code</label>
+            <label>Enter a Zip Code</label>
               <br/>
             <input
               id="Zip Code"
@@ -341,7 +341,7 @@ render() {
                   defaultalue={!this.props.updateprofileflag ? this.state.getResourceById.prevProject : this.state.prevProject}
                 />
                 <br/>
-                <label>clientName</label>
+                <label>Client Name</label>
                 <br/>
                 <input
                   id="clientName"

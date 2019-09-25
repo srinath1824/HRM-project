@@ -427,8 +427,8 @@ urltoFile(url, filename, mimeType){
                 <br/><br/>
         <div>
             <Button type="submit" style={{marginLeft: '10px'}} variant="contained" color="primary" onClick={(e) => this.clearsearch(e)}>Clear Search</Button>
-            <Button style={{marginLeft: '10px'}} variant="contained" color="primary" onClick={(e) => this.addprofile(e)}>Add profile</Button>
-            <Button style={{marginLeft: '10px'}} variant="contained" color="primary" disabled= {!this.state.showButton} onClick={(e) => this.updateprofile(e)}>Update profile</Button>
+            <Button style={{marginLeft: '10px'}} variant="contained" color="primary" onClick={(e) => this.addprofile(e)}>Add Profile</Button>
+            <Button style={{marginLeft: '10px'}} variant="contained" color="primary" disabled= {!this.state.showButton} onClick={(e) => this.updateprofile(e)}>Update Profile</Button>
             <Button style={{marginLeft: '10px'}} variant="contained" color="primary" onClick={(e) => this.addresumes(e)}>Resume Bulk upload</Button>
             <Button style={{marginLeft: '10px'}} variant="contained" color="primary" onClick={(e) => this.logout(e)}>Logout</Button>
         </div>

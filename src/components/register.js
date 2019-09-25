@@ -186,7 +186,7 @@ render() {
         
         <Grid container justify = "center">
             <Grid justify = "center" item xs={3}>
-            <h2 style={{display: 'block', left: '50%',position: 'relative'}}>Registration page</h2>
+            <h2 style={{display: 'block', left: '50%',position: 'relative'}}>Registration Page</h2>
                 <TextField
                     id="outlined-name"
                     label="FirstName"
@@ -248,7 +248,7 @@ render() {
                 variant="outlined"
             />
             <div style={errorMsg}>{this.state.errors.password}</div>
-            <InputLabel htmlFor="age-native-simple">Register as</InputLabel>
+            {/* <InputLabel htmlFor="age-native-simple">Register as</InputLabel>
             <Select
                 native
                 onChange={this.handleChange}
@@ -258,8 +258,8 @@ render() {
             >
         <option value="" />
         <option value={10}>Sourcer</option>
-        <option value={20}>Recruter</option>
-        </Select>
+        <option value={20}>Recruiter</option>
+        </Select> */}
         </Grid>
             </Grid>
             <br/>
@@ -269,6 +269,15 @@ render() {
             <Button style={{display: 'inline-block', left: '42%', marginLeft: '10px', position: 'relative'}} onClick={(e)=>this.submituserRegistrationForm(e)} variant="contained" color="primary">
                 Register
             </Button>
+            <br />
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br />
+            <br/>
+            <br/>
+           
         </form>
     </div>
         );

@@ -19,7 +19,7 @@ function Copyright() {
     textAlign: 'center'
 }
   return (
-      <h5 style={footerstyle}>{'Copyright © Technocomplnc. All Rights Reserver'}</h5>
+      <h5 style={footerstyle}>{'Copyright © Techno-Comp,Inc. All Rights Reserver'}</h5>
   );
   }
 
@@ -35,7 +35,7 @@ function Header() {
     
 } 
 return (
-  <h2 style={footerstyle}>{'TechnoComp'}</h2>
+  <h2 style={footerstyle}>{'TECHNO-COMP'}</h2>
 );
 }
 
