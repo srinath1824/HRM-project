@@ -396,12 +396,14 @@ urltoFile(url, filename, mimeType){
         if (this.state.updateprofileclicked) {
             // count = 0;
             console.log(this.state.selectedIndexes, filterData[this.state.selectedIndexes]);
+            console.log(this.state.data.newResourceDetailDTO.newResourceDetailList[this.state.selectedIndexes].resourceResumeDTOList[0].resumeId)
             return (
                 // <Register handelregister={this.handelregister}/>
                 // <Upload indexSelected={this.state.selectedIndexes} uploadResume={(index, file) => this.uploadResume(index, file)} handelresume={this.handelresume}/>
                 //profileData={(data) => this.profileData(data)}
                 //idSelected={this.state.data.id}
-                <Profile idSelected={filterData[this.state.selectedIndexes]} updateprofileflag={false} handelprofile={this.handelprofile} />
+                
+                <Profile resumeId={this.state.data.newResourceDetailDTO.newResourceDetailList[this.state.selectedIndexes].resourceResumeDTOList[0].resumeId} idSelected={filterData[this.state.selectedIndexes]} updateprofileflag={false} handelprofile={this.handelprofile} />
             
                 )
         }

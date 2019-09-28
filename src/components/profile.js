@@ -121,7 +121,9 @@ async submit() {
             lastModifiedTs: new Date(),
             createdUserId: sessionStorage.getItem('userId'),
             lastModifiedUserId: sessionStorage.getItem('userId'),
-            resumeDoc: this.state.files,
+            resumeDoc: Object.keys(this.state.files).length > 0 ? this.state.files : null,
+            resumeId: this.props.resumeId ? this.props.resumeId : null
+            //(this.state.getResourceById.resourceResumeDTOList[0].resumeId ? this.state.getResourceById.resourceResumeDTOList[0].resumeId : null)
           }         
           
           }),
