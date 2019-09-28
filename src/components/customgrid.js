@@ -46,6 +46,7 @@ console.log(today.getFullYear());
 // ]
 class Customgrid extends Component {
     constructor(props) {
+      //  count = 0;
         super(props)
         this.state = {
             username: "",
@@ -63,6 +64,14 @@ class Customgrid extends Component {
         }
     }
 
+    componentDidUpdate() {
+        console.log("111111111111111111111");
+//count = 0;
+    }
+
+    componentWillReceiveProps() {
+        console.log("222222222222222222222222")
+    }
     profileData(data) {
         this.setState({profileData: data})
     }
@@ -98,28 +107,32 @@ class Customgrid extends Component {
         })
     }
     clearsearch(e) {
+        document.getElementById('role').value = '';
+        document.getElementById('name').value = '';
         this.setState({
             rows: filterData
         })
     }
     addprofile(e) {
-
+        // count = 0;
         this.setState({
             addprofileclicked: true
         })
     }
     updateprofile(e) {
-
+        // count = 0;
         this.setState({
             updateprofileclicked: true
         })
     }
     handelprofile = () => {
+        count = 0;
         this.setState({
             addprofileclicked: false,
-            updateprofileclicked: false
-
+            updateprofileclicked: false,
+            selectedIndexes: []
         })
+        
     }
 
     handelregister = () => {
@@ -373,12 +386,15 @@ urltoFile(url, filename, mimeType){
 
 
     render() {
+
         if (this.state.addprofileclicked) {
+            // count = 0;
             return (
                 <Profile addProfile={true} handelprofile={this.handelprofile} updateprofileflag={true}/>
             )
         }
         if (this.state.updateprofileclicked) {
+            // count = 0;
             console.log(this.state.selectedIndexes, filterData[this.state.selectedIndexes]);
             return (
                 // <Register handelregister={this.handelregister}/>
@@ -395,6 +411,7 @@ urltoFile(url, filename, mimeType){
             )
         }
         if(this.state.logout) {
+//count=0;
             return(
                 <App />
             )
@@ -408,7 +425,7 @@ urltoFile(url, filename, mimeType){
             <Button style={{marginLeft: '10px'}} variant="contained" color="primary" onClick={() => this.oldResume()}>Old Resume</Button>
         <br/><br/><br/>
                 <TextField
-                    id="id"
+                    id="role"
                     label="Enter Role"
                     // name="User Id"
                     name='role'
@@ -416,7 +433,7 @@ urltoFile(url, filename, mimeType){
                     onChange={(e) => this.handleChange(e)}
                 />
                 <TextField
-                    id="user_name"
+                    id="name"
                     label="Enter Name"
                     // name="User name"
                     name = 'name'
@@ -427,8 +444,8 @@ urltoFile(url, filename, mimeType){
                 <br/><br/>
         <div>
             <Button type="submit" style={{marginLeft: '10px'}} variant="contained" color="primary" onClick={(e) => this.clearsearch(e)}>Clear Search</Button>
-            <Button style={{marginLeft: '10px'}} variant="contained" color="primary" onClick={(e) => this.addprofile(e)}>Add Profile</Button>
-            <Button style={{marginLeft: '10px'}} variant="contained" color="primary" disabled= {!this.state.showButton} onClick={(e) => this.updateprofile(e)}>Update Profile</Button>
+            <Button style={{marginLeft: '10px'}} variant="contained" color="primary" disabled={count>0 ? true : false} onClick={(e) => this.addprofile(e)}>Add Profile</Button>
+            <Button style={{marginLeft: '10px'}} variant="contained" color="primary"  disabled={(count>1 || count ===0) ? true : false} onClick={(e) => this.updateprofile(e)}>Update Profile</Button>
             <Button style={{marginLeft: '10px'}} variant="contained" color="primary" onClick={(e) => this.addresumes(e)}>Resume Bulk upload</Button>
             <Button style={{marginLeft: '10px'}} variant="contained" color="primary" onClick={(e) => this.logout(e)}>Logout</Button>
         </div>

@@ -80,7 +80,7 @@ async componentWillMount() {
 async submit() {
     if(!this.props.updateprofileflag ?true : this.validate() ) {
       console.log("1111111111111111");
-      console.log(this.state.primaryPhone);
+      // console.log(this.state.primaryPhone);
       await fetch("http://172.16.75.99:8443/trp/saveResource",{
         method: 'POST',
         headers: {
@@ -94,13 +94,23 @@ async submit() {
           firstName: this.state.firstName  ? this.state.firstName :this.state.getResourceById.firstName  ,
           lastName: this.state.lastName  ?  this.state.lastName: this.state.getResourceById.lastName,
           resourceEmail: this.state.resourceEmail  ? this.state.resourceEmail:this.state.getResourceById.resourceEmail,
+          street: this.state.street  ?  this.state.street: this.state.getResourceById.street,
+          workAuthId: this.state.workAuthId  ?  this.state.workAuthId: this.state.getResourceById.workAuthId,
           city: this.state.city  ?  this.state.city: this.state.getResourceById.city,
+          country: this.state.country  ?  this.state.country: this.state.getResourceById.country,
+          skillsetName:this.state.skillsetName  ?  this.state.skillsetName: this.state.getResourceById.skillsetName,
+          rate:this.state.rate  ?  this.state.rate: this.state.getResourceById.rate,
+          apt:this.state.apt  ?  this.state.apt: this.state.getResourceById.apt,
+
           clientName:this. state.clientName ?  this.state.clientName:this.state.getResourceById.clientName,
           currProject: this.state.currProject  ? this.state.currProject:this.state.getResourceById.currProject,
           desiredPosition: this.state.desiredPosition  ? this.state.desiredPosition:this.state.getResourceById.desiredPosition,
           notes: this.state.notes  ? this.state.notes:this.state.getResourceById.notes,
           primaryPhone: this.state.primaryPhone  ? this.state.primaryPhone: this.state.getResourceById.primaryPhone,
+          secPhone: this.state.secPhone  ? this.state.secPhone:this.state.getResourceById.secPhone,
           landLine: this.state.landLine  ? this.state.landLine:this.state.getResourceById.landLine,
+          commStatus:this.state.commStatus  ? this.state.commStatus:this.state.getResourceById.commStatus,
+
           prevProject: this.state.prevProject  ? this.state.prevProject:this.state.getResourceById.prevProject,
           relocate: this.state.relocate  ? this.state.relocate:this.state.getResourceById.relocate,
           resourceExp: this.state.resourceExp  ? this.state.resourceExp:this.state.getResourceById.resourceExp,
@@ -112,7 +122,8 @@ async submit() {
             createdUserId: sessionStorage.getItem('userId'),
             lastModifiedUserId: sessionStorage.getItem('userId'),
             resumeDoc: this.state.files,
-          }
+          }         
+          
           }),
 
       })
@@ -195,8 +206,8 @@ render() {
   )
   }
 
-  if(this.state.postResult) {
-    return <Customgrid />
+  if(this.state.postResult ) {
+    return <Customgrid btn={true}/>
   }
   let stateValue = this.state.states.map(value => 
     <option 
@@ -262,7 +273,7 @@ render() {
                   defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.primaryPhone : this.state.primaryPhone}
                 />
               <br/>
-              <label>Secondary Phone</label>
+              <label>Land Line Number</label>
             <br/>
               <input
                 id="landLine"
@@ -274,20 +285,51 @@ render() {
                 placeholder="Enter your landline no."
                 defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.landLine : this.state.landLine}
               />
-              <br/>
-              <label>Select a State</label>
-              <br/>
-            <select name="state" className="styled-select slate" onChange={(e) => this.handleChange(e)}
-              placeholder="Select a State" >
-              <option 
-              // defaultValue={!this.props.updateprofileflag  ? this.state.getResourceById.state : this.state.state}
-              value="None"
-              >{!this.props.updateprofileflag ? this.state.getResourceById.state : "Select a state" }</option>
-              {stateValue}
-  
-            </select>
+              <br/> 
+            
+             <label>Enter Secondary Phone:  </label>
+              <br/> 
+             <input
+              id="secPhone"
+              label=" secPhone"
+              onChange={(e) => this.handleChange(e)}
+              margin="normal"
+              name="secPhone"
+              variant="outlined"
+              placeholder="Enter your Street address"
+              defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.secPhone : this.state.secPhone}
+            />
             <br/>
-            <label>Enter a City</label>
+            
+            <label>Enter Apartment Number</label>
+                <br/>
+            <input
+              id="apt"
+              label="apt"
+              onChange={(e) => this.handleChange(e)}
+              margin="normal"
+              name="apt"
+              variant="outlined"
+              placeholder="apt no."
+              defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.apt : this.state.apt}
+            />
+            <br/>
+
+              <label>Enter Street :  </label>
+              <br/>
+            <input
+              id="street"
+              label="street"
+              onChange={(e) => this.handleChange(e)}
+              margin="normal"
+              name="street"
+              variant="outlined"
+              placeholder="Enter Street"
+              defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.street : this.state.street}
+            /> 
+            <br/>            
+            
+              <label>Enter a City</label>
               <br/>
             <input
               id="city"
@@ -299,6 +341,21 @@ render() {
               placeholder="Enter your city"
               defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.city : this.state.city}
             />
+            <br/>
+            
+              <label>Select a State</label>
+              <br/>
+            <select name="state" 
+            className="styled-select slate"
+             onChange={(e) => this.handleChange(e)}
+              placeholder="Select a State" >
+              <option 
+              // defaultValue={!this.props.updateprofileflag  ? this.state.getResourceById.state : this.state.state}
+              value="None"
+              >{!this.props.updateprofileflag ? this.state.getResourceById.state : "Select a state" }</option>
+              {stateValue}
+  
+            </select>
             <br/>
             <label>Enter a Zip Code</label>
               <br/>
@@ -313,6 +370,20 @@ render() {
               defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.zip : this.state.zip}
             />
             
+            <br/>
+            <label>Enter a Country:  </label>
+              <br/>
+            <input
+              id="Country/Region"
+              label=" Country/Region:  "
+              onChange={(e) => this.handleChange(e)}
+              margin="normal"
+              name="country"
+              variant="outlined"
+              placeholder="Enter your  Country"
+              defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.country : this.state.country}
+            /> 
+
             </Grid>
             <Grid item xs={6}>
             <label>Current Project</label>
@@ -324,7 +395,7 @@ render() {
                   margin="normal"
                   name="currProject"
                   variant="outlined"
-                  placeholder="Enter your Project"
+                  placeholder="Enter your Role in Project"
                   defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.currProject : this.state.currProject}
                 />
                 <br/>
@@ -337,8 +408,8 @@ render() {
                   margin="normal"
                   name="prevProject"
                   variant="outlined"
-                  placeholder="Desired Position"
-                  defaultalue={!this.props.updateprofileflag ? this.state.getResourceById.prevProject : this.state.prevProject}
+                  placeholder="Enter your Role in Project"
+                  defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.prevProject : this.state.prevProject}
                 />
                 <br/>
                 <label>Client Name</label>
@@ -351,17 +422,32 @@ render() {
                   name="clientName"
                   variant="outlined"
                   placeholder="Client name"
-                  defaultalue={!this.props.updateprofileflag ? this.state.getResourceById.clientName : this.state.clientName}
+                  defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.clientName : this.state.clientName}
                 />
                 <br/>
                 <label>Relocate</label>
                 <br/>
                 <select className="styled-select slate" name="relocate" onChange={(e) => this.handleChange(e)}
-                  placeholder="Select a State" 
-                  defaultalue={!this.props.updateprofileflag ? this.state.getResourceById.relocate : this.state.relocate}>
+                  placeholder="Select Relocation" 
+                  defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.relocate : this.state.relocate}>
                   <option value="None">Relocate</option>  
                   <option value="Yes">Yes</option>
                   <option value="No">No</option>
+                </select>
+              <br/>
+              <label>Work Authorization</label>
+                <br/>
+                <select className="styled-select slate"
+                 name="workAuthId" 
+                 onChange={(e) => this.handleChange(e)}
+                  placeholder="Select a Work Authorization" 
+                  defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.workAuthId : this.state.workAuthId}>
+                  <option value="None">Work Authorization</option>  
+                  <option value="H1">H1</option>
+                  <option value="H4">H4</option>
+                  <option value="B1">B1</option>
+                  <option value="OPT">OPT</option>
+                  <option value="CPT">CPT</option>
                 </select>
               <br/>
               <label>Experience</label>
@@ -377,16 +463,32 @@ render() {
                 defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.resourceExp : this.state.resourceExp}
               />
               <br/>
+              <label>Rate</label>
+                <br/>
+              <input
+                id="rate"
+                label="rate"
+                onChange={(e) => this.handleChange(e)}
+                margin="normal"
+                name="rate"
+                variant="outlined"
+                placeholder="rate"
+                defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.rate : this.state.rate}
+              />
+              <br/>
+              
               <label>Skills</label>
                 <br/>
               <input
-                id="Skills"
-                label="Skills"
+                id="skillsetName"
+                label="skillsetName"
                 onChange={(e) => this.handleChange(e)}
                 margin="normal"
-                name="Skills"
+                name="skillsetName"
                 variant="outlined"
                 placeholder="Skills"
+                defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.skillsetName : this.state.skillsetName}
+
               />
               <br/>
               <label>Desired Position</label>
@@ -402,6 +504,20 @@ render() {
               defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.desiredPosition : this.state.desiredPosition}
             />
             <br/>
+            <label>Communication Status</label>
+                <br/>
+            <input
+              id="commStatus"
+              label="commStatus"
+              onChange={(e) => this.handleChange(e)}
+              margin="normal"
+              name="commStatus"
+              variant="outlined"
+              placeholder="Communication Status"
+              defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.commStatus : this.state.commStatus}
+            />
+            <br/>
+            
             <label>Notes</label>
                 <br/>
             <input
