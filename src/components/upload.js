@@ -69,7 +69,7 @@ backtodatagrid(e){
 render() {
     
   if(this.state.postResult ) {
-    return <Customgrid btn={true}/>
+    return <Customgrid/>
   }
 return (
     <div className="UploadApp">

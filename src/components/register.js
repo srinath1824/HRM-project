@@ -52,7 +52,7 @@ export default class Register extends Component {
             lastName: this.state.fields.LastName,
             phone: this.state.fields.mobileno,
             userEmail: this.state.fields.emailid,
-            securityQuestion: "what is you home address?",
+            securityQuestion: this.state.fields.securityQuestion,
             userId: this.state.fields.username,
             userPwd:this.state.fields.password,
             // need to implement registered as source or recruter
@@ -76,6 +76,7 @@ export default class Register extends Component {
     validateForm() {
 
     let fields = this.state.fields;
+    console.log(fields);
     let errors = {};
     let formIsValid = true;
 
@@ -94,6 +95,11 @@ export default class Register extends Component {
     if (!fields["LastName"]) {
         formIsValid = false;
         errors["LastName"] = "*Please enter your LastName.";
+    }
+
+    if(!fields["securityQuestion"]) {
+        formIsValid = false;
+        errors["securityQuestion"] = "*Please enter security Question";
     }
 
     if (typeof fields["LastName"] !== "undefined") {
@@ -248,6 +254,17 @@ render() {
                 variant="outlined"
             />
             <div style={errorMsg}>{this.state.errors.password}</div>
+           
+            <TextField
+                id="outlined-name"
+                label="securityQuestion"
+                name="securityQuestion"
+                onChange={this.handleChange}
+                margin="normal"
+                variant="outlined"
+            />
+            <div style={errorMsg}>{this.state.errors.securityQuestion}</div>
+
             {/* <InputLabel htmlFor="age-native-simple">Register as</InputLabel>
             <Select
                 native

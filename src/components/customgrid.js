@@ -62,10 +62,12 @@ class Customgrid extends Component {
             profileData: {},
             showUpdate: false
         }
+        //this.props.btn && search()
     }
 
     componentDidUpdate() {
         console.log("111111111111111111111");
+        //this.search();
 //count = 0;
     }
 
@@ -145,7 +147,8 @@ class Customgrid extends Component {
 
     addresumes(e){
         this.setState({
-            addresumesclicked:true
+            addresumesclicked:true,
+            selectedIndexes: []
         })
     }
 
@@ -156,7 +159,8 @@ class Customgrid extends Component {
     }
     handelresume = () => {
         this.setState({
-            addresumesclicked:false
+            addresumesclicked:false,
+            selectedIndexes: []
         })
 
 }
@@ -332,8 +336,9 @@ urltoFile(url, filename, mimeType){
         this.setState({rows: filterData})
     }
 
-    componentDidMount() {
-        fetch("http://172.16.75.99:8443/trp/searchResource",{
+     componentDidMount() {
+       let response =   new Promise(async(resolve, reject)=>{
+        await fetch("http://172.16.75.99:8443/trp/searchResource",{
             method: 'POST',
             headers: {
             'Content-Type': 'application/json',
@@ -344,8 +349,7 @@ urltoFile(url, filename, mimeType){
             .then(result => {
                 console.log(result)
                 if(result.responseCode.errorCode==="0"){
-                    this.setState({data: result})
-                    console.log(this.state.data)
+                    resolve(result);
                 }
                 else{
                     this.setState({errormessage:"Invalid User Id or Password."})
@@ -355,10 +359,19 @@ urltoFile(url, filename, mimeType){
             .catch(err => {
                 console.log(err)
                 this.setState({errormessage:"Something went wrong"})
+                reject("Something went wrong");
             })
+        })
+        response.then(res => {
+            this.setState({data: res})
+            console.log(this.state.data)
+        }).catch(err => {
+            console.log(err)
+            this.setState({errormessage:"Something went wrong"})
+        })
         }
 
-        componentWillMount() {
+        search() {
             fetch("http://172.16.75.99:8443/trp/searchResource",{
                 method: 'POST',
                 headers: {
@@ -383,6 +396,42 @@ urltoFile(url, filename, mimeType){
                     this.setState({errormessage:"Something went wrong"})
                 })
             }
+        
+             componentWillMount() {
+                let response =  new Promise(async(resolve, reject)=>{
+                    await  fetch("http://172.16.75.99:8443/trp/searchResource",{
+                        method: 'POST',
+                        headers: {
+                        'Content-Type': 'application/json',
+                        'cache-control': 'no-cache',
+                        },  body: JSON.stringify({}),
+                        })
+                        .then(res => res.json())
+                        .then(result => {
+                            console.log(result)
+                            if(result.responseCode.errorCode==="0"){
+                                resolve(result);
+                            }
+                            else{
+                                this.setState({errormessage:"Invalid User Id or Password."})
+                            }
+                            }
+                            )
+                        .catch(err => {
+                            console.log(err)
+                            this.setState({errormessage:"Something went wrong"})
+                            reject("Something went wrong");
+                        })
+                    });
+
+                    response.then(res => {
+                        this.setState({data: res})
+                        console.log(this.state.data)
+                    }).catch(err => {
+                        console.log(err)
+                        this.setState({errormessage:"Something went wrong"})
+                    })
+               }
 
 
     render() {

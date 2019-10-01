@@ -47,23 +47,23 @@ class App extends React.Component {
     })
   }
 
-  validate() {
+  async validate() {
 
     // //comment this
     // this.setState({
     //   is_valid_user: true
     // });
     // //-------------------
-      
+    let flag = false;
     console.log(this.state)
     this.state.username === "" ?
       errors.username = "Please enter your Username." : errors={}
     this.state.password === "" ? errors.password= "Please enter your Password." : errors={}
 
-    Object.keys(errors).length > 0 ? this.setState({formIsValid: false}) : this.setState({formIsValid: true})
+    Object.keys(errors).length > 0 ? flag = true : flag = true;
 
-    if(this.state.formIsValid) {
-    fetch("http://172.16.75.99:8443/trp/login",{
+    if(flag) {
+    await fetch("http://172.16.75.99:8443/trp/login",{
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
