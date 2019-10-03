@@ -50,9 +50,9 @@ class App extends React.Component {
   async validate() {
 
     // //comment this
-    // this.setState({
-    //   is_valid_user: true
-    // });
+    this.setState({
+      is_valid_user: true
+    });
     // //-------------------
     let flag = false;
     console.log(this.state)

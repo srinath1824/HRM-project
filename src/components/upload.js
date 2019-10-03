@@ -15,19 +15,31 @@ this.state = {
     upload: false,
     uploadMsg: false,
     files: null,
-    postResult: false
+    postResult: false,
+    metaData: null
 }
 }
 submit() {
 
     let formData = new FormData();
     for(const file of this.state.files) {
-        formData.append("resumes", file);
+        //removed
+        //formData.append("resumes", file);
+        //-----
+        // added
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (e) => {
+        console.log(e.target.result);
+        formData.append('resumes', e.target.result);
+        //this.setState({metaData: e.target.result});
+        }
+        // -----
     }
     if(this.props.bulkUpload) {
         fetch('http://172.16.75.99:8443/trp/uploadResume', {
         method: 'POST',
-        body: formData
+        body: formData //this.state.metaData
     }).then(res => res.json())
     .then(
     (result)=> {
@@ -36,13 +48,13 @@ submit() {
         alert("resumes uploaded Successfully");
         this.setState({
             postResult: true
-          } )
+        } )
         this.props.bulkUpload ? this.props.handelresume() : this.props.uploadresume(false,fileupl, fileupl.length);
         this.setState({uploadMsg: true})
     }).catch(err => {
         console.log(err);
     })
- } else {
+} else {
             let files = this.state.files[0];
             let reader = new FileReader();
             reader.readAsDataURL(files);

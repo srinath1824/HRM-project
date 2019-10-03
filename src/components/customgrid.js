@@ -9,6 +9,8 @@ import { Button } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload';
+import axios from 'axios';
+var Base64 = require('js-base64').Base64;
 
 const columns = [
     { key: 'id', name: 'ID' },
@@ -223,12 +225,7 @@ class Customgrid extends Component {
     resume = this.state.data.compResourceDetailDTO.compResourceDetailList;
         this.filteredData(resume);
     }
-    // uploadResume(index, file) {
-    //     console.log(index,file);
-    //     resume.forEach(z=> z.id == index ? (z.resume = file.name, z.details = (Math.floor(file.size/1024))+"Kb") : "")
-    //     console.log(resume);
-    //     this.filteredData(resume);
-    // }
+
     uploadResume(index, file) {
         console.log(index,file);
         resume.forEach(z=> z.id == index ? (z.resume = file.name, z.details = (Math.floor(file.size/1024))+"Kb") : "")
@@ -236,73 +233,39 @@ class Customgrid extends Component {
         this.filteredData(resume);
     }
 
-    //--------trying----
-urltoFile(url, filename, mimeType){
-    return (fetch(url)
-        .then(function(res){return res.arrayBuffer();})
-        .then(function(buf){return new File([buf], filename, {type:mimeType});})
-    );
-}
-//------------------------
 
     downloadResume(id){
         console.log(id);
+        let resumeRes = {};
         //----------
-        this.urltoFile(`http://172.16.75.99:8443/trp/getResumeById/${id}`, `${id}_file.docx`, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-        .then( b => {
-                var a = document.createElement('a');        
-                a.href = window.URL.createObjectURL(b);
-                //a.setAttribute("download", `sample.${id}`);
-                //document.body.appendChild(a);
-                a.download = `${id}_file.docx`;
-                a.click();
-                alert("Downloaded successfully");
-                a.remove();
-                //a.parentNode.removeChild(a);
-                //document.body.removeChild(a);
+        axios.get(`http://172.16.75.99:8443/trp/getResumeById/${id}`)
+            .then(resume => {
+                console.log(resume)
+                resumeRes = resume;
+            })
+            .catch(err => {
+                console.log(err);
             });
-        //----------
+        let data = resumeRes.resumeDoc;
+        //let mimeType = this.state.file.type;
+        let fileName = `${data.resumeId}.docs`;
+        let encodedData = Base64.encode(data);
+        console.log(fileName, encodedData);
+        this.downloadURL(encodedData, fileName);
+    };
 
-        // trying with http 
-            // const http = require('http');
-            // const fs = require('fs');
-
-            // const file = fs.createWriteStream("file.jpg");
-            // const request = http.get(`http://172.16.75.99:8443/trp/getResumeById/${id}`, function(response) {
-            //     response.pipe(file);
-            // });
-            // request.t.blob().then(b => {
-            //     var a = document.createElement('a');        
-            //     a.href = window.URL.createObjectURL(b);
-            //     //a.setAttribute("download", `sample.${id}`);
-            //     //document.body.appendChild(a);
-            //     a.download = `${id}_file.docx`;
-            //     a.click();
-            //     alert("Downloaded successfully");
-            //     a.remove();
-            //     //a.parentNode.removeChild(a);
-            //     document.body.removeChild(a);
-            // })
-        //-----------------------
-        
-        // -----------Actual code---------
-        // fetch(`http://172.16.75.99:8443/trp/getResumeById/${id}`)
-        //     .then(t => {
-        //         return t.blob().then( b => {
-        //             var a = document.createElement('a');        
-        //             a.href = window.URL.createObjectURL(b);
-        //             //a.setAttribute("download", `sample.${id}`);
-        //             //document.body.appendChild(a);
-        //             a.download = `${id}_file.docx`;
-        //             a.click();
-        //             alert("Downloaded successfully");
-        //             a.remove();
-        //             //a.parentNode.removeChild(a);
-        //             // document.body.removeChild(a);
-        //         });
-        //     });
-        // ---------------------------------------
-    }
+    downloadURL = (data, fileName) => {
+        let base64Data = Base64.decode(data)
+        //console.log(base64Data)
+        var a;
+        a = document.createElement('a');
+        a.href = base64Data;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.style = 'display: none';
+        a.click();
+        a.remove();
+    };
 
     filteredData(fullData) {
 
