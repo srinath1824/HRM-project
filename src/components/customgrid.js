@@ -234,11 +234,11 @@ class Customgrid extends Component {
     }
 
 
-    downloadResume(id){
+   async downloadResume(id){
         console.log(id);
         let resumeRes = {};
         //----------
-        axios.get(`http://172.16.75.99:8443/trp/getResumeById/${id}`)
+       await axios.get(`http://172.16.75.99:8443/trp/getResumeById/${id}`)
             .then(resume => {
                 console.log(resume)
                 resumeRes = resume;
@@ -246,9 +246,11 @@ class Customgrid extends Component {
             .catch(err => {
                 console.log(err);
             });
-        let data = resumeRes.resumeDoc;
+        let data = resumeRes.data.resumeDoc;
+        console.log(data)
+        console.log(resumeRes)
         //let mimeType = this.state.file.type;
-        let fileName = `${data.resumeId}.docs`;
+        let fileName = `${resumeRes.data.resumeId}.docs`;
         let encodedData = Base64.encode(data);
         console.log(fileName, encodedData);
         this.downloadURL(encodedData, fileName);

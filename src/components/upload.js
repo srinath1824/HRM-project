@@ -23,6 +23,7 @@ submit() {
 
     let formData = new FormData();
     for(const file of this.state.files) {
+        console.log(file)
         //removed
         //formData.append("resumes", file);
         //-----
@@ -31,8 +32,8 @@ submit() {
         reader.readAsDataURL(file);
         reader.onload = (e) => {
         console.log(e.target.result);
-        formData.append('resumes', e.target.result);
-        //this.setState({metaData: e.target.result});
+        formData.append('resumes', file);
+        this.setState({metaData: file});
         }
         // -----
     }
@@ -55,13 +56,13 @@ submit() {
         console.log(err);
     })
 } else {
-            let files = this.state.files[0];
-            let reader = new FileReader();
-            reader.readAsDataURL(files);
-            reader.onload = (e) => {
-                console.log(e.target.result);
-                this.props.singleResume(e.target.result);
-            }
+            // let files = this.state.files[0];
+            // let reader = new FileReader();
+            // reader.readAsDataURL(files);
+            // reader.onload = (e) => {
+            //     console.log(e.target.result);
+                this.props.singleResume(this.state.metaData);
+            //}
         }
 
 }
