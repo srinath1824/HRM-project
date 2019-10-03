@@ -45,7 +45,6 @@ ReactDOM.render(
     <CssBaseline />
     <Header/>
     <App />
-    {/* <br/><br/><br/><br/><br/><br/><br/><br/> */}
     <Copyright />
   </ThemeProvider>,
   document.querySelector('#root'),

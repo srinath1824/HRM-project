@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Modal } from "react-bootstrap";
-import { Button, Container, Typography, TextField, Link } from '@material-ui/core';
+import { Button, TextField } from '@material-ui/core';
 import App from '../App';
 import './forgotModel.css'
 
@@ -11,6 +10,7 @@ class ForgotModel extends Component {
             cancel: false,
             errormessage: ''
         };
+        console.log(this.props)
     }
 
 handleChange(event) {
@@ -83,72 +83,75 @@ cancel() {
     this.setState({cancel: true})
 }
 render() {
+    let forUser;
+    let forPassword;
     if(this.state.cancel) {
         return(
             <App />
         )
     }
+    if(this.props.forgotuser) {
+        forUser =  (
+            <div style={{textAlign: 'center'}}>
+                <h1>Forgot Username</h1>
+                <p style={{color: "red"}}>{this.state.errormessage}</p>
+
+                <TextField
+                    id="security_question"
+                    label="Enter security question"
+                    name="security_question"
+                    onChange={(e) => this.handleChange(e)}
+                    margin="normal"
+                /><br/>
+                <TextField
+                    id="security_email"
+                    label="Enter Email"
+                    name="security_email"
+                    onChange={(e) => this.handleChange(e)}
+                    margin="normal"
+                /><br/>
+                <Button variant="contained" color="primary" onClick={() => this.validateFrgtUsername()}>
+                    Submit
+                </Button>
+                <Button style={{marginLeft: '10px'}} variant="contained" color="primary" onClick={() => this.cancel()}>
+                    Cancel
+                </Button>
+        </div>
+        )
+    }
+
+    if(this.props.forgotpassword) {
+        forPassword = (
+        <div style={{textAlign: 'center'}}>
+        <h1>Forgot Password</h1>
+            <p style={{color: "red"}}>{this.state.errormessage}</p>
+            <TextField
+                id="security_question"
+                label="Enter security question"
+                name="frgtpasswd_question"
+                onChange={(e) => this.handleChange(e)}
+                margin="normal"
+            /><br/>
+            <TextField
+                id="security_userid"
+                label="Enter userid"
+                name="security_userid"
+                onChange={(e) => this.handleChange(e)}
+                margin="normal"
+            /><br/>
+            <Button variant="contained" color="primary" onClick={() => this.validateFrgtPasswd()}>
+                Submit
+            </Button>
+            <Button style={{marginLeft: '10px'}} variant="contained" color="primary" onClick={() => this.cancel()}>
+                Cancel
+            </Button>
+            <br/>
+        </div>)
+    }
     return (
         <div>
-        <Modal className='modal-dialog' show={this.props.forgotuser} onHide={() => this.handleClose()}>
-        <Modal.Title><h1>Forgot Username</h1></Modal.Title>
-        <p style={{color: "red"}}>{this.state.errormessage}</p>
-        <Modal.Header />
-        <Modal.Body className='modal-content'>
-        <TextField
-            id="security_question"
-            label="Enter security question"
-            name="security_question"
-            onChange={(e) => this.handleChange(e)}
-            margin="normal"
-        /><br/>
-        <TextField
-            id="security_email"
-            label="Enter Email"
-            name="security_email"
-            onChange={(e) => this.handleChange(e)}
-            margin="normal"
-        />
-        </Modal.Body><br/>
-        <Modal.Footer>
-        <Button variant="contained" color="primary" onClick={() => this.validateFrgtUsername()}>
-            Submit
-        </Button>
-        <Button style={{marginLeft: '10px'}} variant="contained" color="primary" onClick={() => this.cancel()}>
-            Cancel
-        </Button>
-        </Modal.Footer>
-    </Modal>
-    <Modal show={this.props.forgotpassword} onHide={() => this.handlePasswdClose()}>
-        <Modal.Title><h1>Forgot Password</h1></Modal.Title>
-        <p style={{color: "red"}}>{this.state.errormessage}</p>
-        <Modal.Header />
-        <Modal.Body>
-        <TextField
-            id="security_question"
-            label="Enter security question"
-            name="frgtpasswd_question"
-            onChange={(e) => this.handleChange(e)}
-            margin="normal"
-        /><br/>
-        <TextField
-            id="security_userid"
-            label="Enter userid"
-            name="security_userid"
-            onChange={(e) => this.handleChange(e)}
-            margin="normal"
-        />
-        </Modal.Body><br/>
-        <Modal.Footer>
-        <Button variant="contained" color="primary" onClick={() => this.validateFrgtPasswd()}>
-            Submit
-        </Button>
-        <Button style={{marginLeft: '10px'}} variant="contained" color="primary" onClick={() => this.cancel()}>
-            Cancel
-        </Button>
-        <br/>
-        </Modal.Footer>
-        </Modal>
+            {forUser}
+            {forPassword}
         </div>
         )
     }
