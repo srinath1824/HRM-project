@@ -116,6 +116,7 @@ render() {
                 <Button style={{marginLeft: '10px'}} variant="contained" color="primary" onClick={() => this.cancel()}>
                     Cancel
                 </Button>
+                <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
         </div>
         )
     }
@@ -145,7 +146,7 @@ render() {
             <Button style={{marginLeft: '10px'}} variant="contained" color="primary" onClick={() => this.cancel()}>
                 Cancel
             </Button>
-            <br/>
+            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
         </div>)
     }
     return (

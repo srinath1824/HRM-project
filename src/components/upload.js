@@ -20,21 +20,36 @@ this.state = {
 }
 }
 submit() {
-
     let formData = new FormData();
     for(const file of this.state.files) {
         console.log(file)
-        //removed
+        //removed 
         //formData.append("resumes", file);
         //-----
         // added
-        let reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = (e) => {
-        console.log(e.target.result);
+
+
+        // let myReader = new FileReader();
+        // this.uploadedFile = file;
+
+        // myReader.onloadend = (e) => {
+        //   this.uploadedFile = myReader.result;
+        // }
+        // myReader.readAsDataURL(file);
+        // console.log(this.uploadedFile);
+
+        // this.setState({
+        //     metaData: file
+        // });
+        // let reader = new FileReader();
+        // reader.readAsDataURL(file);
+        // reader.onload = (e) => {
+        // console.log(e.target.result)
         formData.append('resumes', file);
-        this.setState({metaData: file});
-        }
+        //formData.append('resumes', e.target.result)
+        //this.setState({metaData: e.target.result});
+        //}
+
         // -----
     }
     if(this.props.bulkUpload) {
@@ -51,18 +66,19 @@ submit() {
             postResult: true
         } )
         this.props.bulkUpload ? this.props.handelresume() : this.props.uploadresume(false,fileupl, fileupl.length);
-        this.setState({uploadMsg: true})
+        this.setState({uploadMsg: true});
+        this.props.search();
     }).catch(err => {
         console.log(err);
     })
 } else {
-            // let files = this.state.files[0];
-            // let reader = new FileReader();
-            // reader.readAsDataURL(files);
-            // reader.onload = (e) => {
-            //     console.log(e.target.result);
-                this.props.singleResume(this.state.metaData);
-            //}
+            let files = this.state.files[0];
+            let reader = new FileReader();
+            reader.readAsDataURL(files);
+            reader.onload = (e) => {
+                console.log(e.target.result);
+                this.props.singleResume(formData, e.target.result);
+            }
         }
 
 }
@@ -90,7 +106,7 @@ return (
         <br />
         <center>
         <label className="custom-file-upload">
-            <input type="file" id="inpfile" encType="multipart/form-data"  onChange={ (e) => this.handleChange(e) } multiple={this.props.bulkUpload}/>
+            <input name="resumes" type="file" id="inpfile"  onChange={ (e) => this.handleChange(e) } multiple={this.props.bulkUpload}/>
             {!this.state.upload ? "Click here to Upload Resume" : 'file uploaded'}
         </label>
         <br /><br/>

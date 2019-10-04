@@ -18,19 +18,21 @@ class Profile extends Component {
       flag: false,
       postResult: false,
       getResourceById: {},
-      files: {},
+      files: null,
       states: [],
-      CountryState: ''
+      CountryState: '',
+      metaData: ''
     }
 
   }
 
-singleResume = (resume) => {
-  console.log(resume)
+singleResume = (resume, meta) => {
+  console.log(resume, typeof resume)
   this.setState({files: resume});
   this.setState({
     upload:false,
   });
+  this.setState({metaData: meta})
   
 }
 
@@ -121,7 +123,7 @@ async submit() {
             lastModifiedTs: new Date(),
             createdUserId: sessionStorage.getItem('userId'),
             lastModifiedUserId: sessionStorage.getItem('userId'),
-            resumeDoc: Object.keys(this.state.files).length > 0 ? this.state.files : null,
+            resumeDoc: this.state.metaData,
             resumeId: this.props.resumeId ? this.props.resumeId : null
             //(this.state.getResourceById.resourceResumeDTOList[0].resumeId ? this.state.getResourceById.resourceResumeDTOList[0].resumeId : null)
           }         

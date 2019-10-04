@@ -246,19 +246,20 @@ class Customgrid extends Component {
             .catch(err => {
                 console.log(err);
             });
-        let data = resumeRes.data.resumeDoc;
+        let data = 'data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,' + resumeRes.data.resumeDoc;
         console.log(data)
         console.log(resumeRes)
         //let mimeType = this.state.file.type;
-        let fileName = `${resumeRes.data.resumeId}.docs`;
+        let fileName = resumeRes.data.resumeName;
         let encodedData = Base64.encode(data);
         console.log(fileName, encodedData);
         this.downloadURL(encodedData, fileName);
     };
 
     downloadURL = (data, fileName) => {
+        console.log(data)
         let base64Data = Base64.decode(data)
-        //console.log(base64Data)
+        console.log(base64Data)
         var a;
         a = document.createElement('a');
         a.href = base64Data;
@@ -423,7 +424,7 @@ class Customgrid extends Component {
         }
         if (this.state.addresumesclicked) {
             return (
-                <Upload bulkUpload={true} uploadResume={() => this.uploadResume()} handelresume={() => this.handelresume()}/>
+                <Upload bulkUpload={true} uploadResume={() => this.uploadResume()} handelresume={() => this.handelresume()} search={() => this.search()}/>
             )
         }
         if(this.state.logout) {
