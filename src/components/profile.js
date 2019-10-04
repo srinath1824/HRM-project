@@ -5,6 +5,7 @@ import Upload from './upload';
 import './profile.css';
 import Grid from '@material-ui/core/Grid';
 import Customgrid from './customgrid';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 
 const Joi = require('joi');
 
@@ -21,7 +22,8 @@ class Profile extends Component {
       files: null,
       states: [],
       CountryState: '',
-      metaData: ''
+      metaData: '',
+      skillsArr: []
     }
 
   }
@@ -100,7 +102,7 @@ async submit() {
           workAuthId: this.state.workAuthId  ?  this.state.workAuthId: this.state.getResourceById.workAuthId,
           city: this.state.city  ?  this.state.city: this.state.getResourceById.city,
           country: this.state.country  ?  this.state.country: this.state.getResourceById.country,
-          skillsetName:this.state.skillsetName  ?  this.state.skillsetName: this.state.getResourceById.skillsetName,
+          resourceSkillsetList:this.state.skillsArr  ?  this.state.skillsArr: this.state.getResourceById.skillsArr,
           rate:this.state.rate  ?  this.state.rate: this.state.getResourceById.rate,
           apt:this.state.apt  ?  this.state.apt: this.state.getResourceById.apt,
 
@@ -202,8 +204,16 @@ return valueflag;
 //   console.log(e.target.name);
 //   this.setState({CountryState: e.target.value})
 // }
+handleSkills(e) {
+  let arr = this.state.skillsArr;
+  arr.push(this.state.skillsetName);
+  this.setState({skillsArr: arr});
+  console.log(arr);
+  document.getElementById("skillsetName").value = "";
+}
 
 render() {
+  let allSkills;
   if(this.state.upload){
   return(
   <Upload bulkUpload={false} uploadresume={() => this.uploadresume()} singleResume={this.singleResume}/>
@@ -219,6 +229,12 @@ render() {
     defaultValue={!this.props.updateprofileflag  ? this.state.getResourceById.state : this.state.state}
     >{value.stateNm}</option>
 )
+
+    if(this.state.skillsArr.length > 0) {
+      allSkills = this.state.skillsArr.map(skill => {
+        return <span>{skill + ", "}</span>
+      })
+    }
     return (
       <div style={{backgroundColor: '#e0ebeb', textAlign: 'center'}}>
         <br/>
@@ -491,9 +507,12 @@ render() {
                 name="skillsetName"
                 variant="outlined"
                 placeholder="Skills"
-                defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.skillsetName : this.state.skillsetName}
-
+                defaultValue={!this.props.updateprofileflag ? this.state.getResourceById.skillsetName : this.state.skillsArr}
               />
+              <AddCircleIcon onClick={() => this.handleSkills()}/>
+              <div>
+              {allSkills}
+              </div>
               <br/>
               <label>Desired Position</label>
                 <br/>
